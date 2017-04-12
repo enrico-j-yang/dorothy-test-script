@@ -7,57 +7,57 @@
     
     @speed
     场景:	固定速度
-        当      CANBUS上有速度为60
+        当      CANBUS上有速度为60km/h
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为60
+        那么    HUD显示速度为60km/h
     
     @speed
-    场景:	速度在20秒内从0增加到254
-        当      CANBUS上有速度为0
-        而且    CANBUS上速度在20秒内增加到254
-        那么    HUD显示速度在20秒内从0增加到254
+    场景:	速度在20秒内从0km/h增加到254km/h
+        当      CANBUS上有速度为0km/h
+        而且    CANBUS上速度在20秒内增加到254km/h
+        那么    HUD显示速度在20秒内从0km/h增加到254km/h
         
     @speed
-    场景:	速度在20秒内从254下降到0
-        当      CANBUS上有速度为254
-        而且    CANBUS上速度在20秒内从254下降到0
-        那么    HUD显示速度在20秒内从254下降到0
+    场景:	速度在20秒内从254km/h下降到0km/h
+        当      CANBUS上有速度为254km/h
+        而且    CANBUS上速度在20秒内从254km/h下降到0km/h
+        那么    HUD显示速度在20秒内从254km/hkm/h下降到0km/h
         
     @speed
     场景:	非法速度
         当      CANBUS上有速度为255
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为0
+        那么    HUD显示速度为0km/h
         
     @speed
     场景:	速度失效，使用最后一次的有效值显示
-        当      CANBUS上有速度为60
+        当      CANBUS上有速度为60km/h
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为60
+        那么    HUD显示速度为60km/h
         
         当      CANBUS上信号断开2秒
-        那么    HUD显示速度为60
+        那么    HUD显示速度为60km/h
 
-        当      CANBUS上有速度为40
+        当      CANBUS上有速度为40km/h
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为40
+        那么    HUD显示速度为40km/h
         
     @speed
     场景:	速度失效时间超过2.5秒
-        当      CANBUS上有速度为60
+        当      CANBUS上有速度为60km/h
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为60
+        那么    HUD显示速度为60km/h
         
         当      CANBUS上信号断开3秒
-        那么    HUD显示速度为0
+        那么    HUD显示速度为0km/h
 
     @CRC
     场景:	IC_2 CRC校验错误
-        当      CANBUS上有速度为60
+        当      CANBUS上有速度为60km/h
         而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为60
+        那么    HUD显示速度为60km/h
         
         当      CANBUS上IC_2的CRC校验错误
         
         而且    CANBUS上信号持续3秒
-        那么    HUD显示速度为0
+        那么    HUD显示速度为0km/h
