@@ -126,7 +126,7 @@
         那么    HUD显示电子眼<camera type picture>
         而且    HUD显示电子眼距离为500米
         
-    例子:电子眼图标编号与图标关系
+    例子:       电子眼图标编号与图标关系
         | camera type       | camera type picture     |
         | 红绿灯            | 红绿灯                  |
         | 违章拍照          | 违章拍照                  |
