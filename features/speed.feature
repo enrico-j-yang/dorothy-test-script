@@ -50,14 +50,3 @@
         
         当      CANBUS上信号断开3秒
         那么    HUD显示速度为0km/h
-
-    @CRC
-    场景:	IC_2 CRC校验错误
-        当      CANBUS上有速度为60km/h
-        而且    CANBUS上信号持续1秒
-        那么    HUD显示速度为60km/h
-        
-        当      CANBUS上IC_2的CRC校验错误
-        
-        而且    CANBUS上信号持续3秒
-        那么    HUD显示速度为0km/h
