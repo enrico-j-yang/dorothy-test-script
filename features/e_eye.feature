@@ -27,7 +27,7 @@
         
     @CamSpeedLimit
     场景:	电子眼限速为最小值
-        当      CANBUS上电子眼限速值为20km/h
+        当      CANBUS上电子眼限速值为10km/h
         而且    CANBUS上电子眼类型为违章拍照
         而且    CANBUS上电子眼距离为500米
         而且    CANBUS上引导方向类型为非法值

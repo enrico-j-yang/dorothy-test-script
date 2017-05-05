@@ -19,7 +19,7 @@
         
     @DestDistance
     场景:	显示目的地距离为带小数的公里数
-        当      CANBUS上目的地距离值为10.513km
+        当      CANBUS上目的地距离值为10.5km
         而且    CANBUS上到达目的地剩余时间值为88h33m
         而且    CANBUS上下一个路口的距离值为2km
         
@@ -73,34 +73,23 @@
         
     @DestDistance
     场景:	显示目的地距离为最大值
-        当      CANBUS上目的地距离值为5000km
+        当      CANBUS上目的地距离值为6553.4km
         而且    CANBUS上到达目的地剩余时间值为88h33m
         而且    CANBUS上下一个路口的距离值为2km
         
         而且    CANBUS上信号持续3秒
-        那么    HUD显示目的地距离为5000km
+        那么    HUD显示目的地距离为6553.4km
         而且    HUD显示到达目的地剩余时间为88h33m
         而且    HUD显示下一个路口的距离为2km
         
     @DestDistance
     场景:	显示目的地距离为非法值
-        当      CANBUS上目的地距离值为1048575
+        当      CANBUS上目的地距离值为65535
         而且    CANBUS上到达目的地剩余时间值为88h33m
         而且    CANBUS上下一个路口的距离值为2km
         
         而且    CANBUS上信号持续3秒
         那么    HUD不显示目的地距离
-        
-    @DestDistance
-    场景:	显示目的地距离超过最大值但不为非法值
-        当      CANBUS上目的地距离值为10000km
-        而且    CANBUS上到达目的地剩余时间值为88h33m
-        而且    CANBUS上下一个路口的距离值为2km
-        
-        而且    CANBUS上信号持续3秒
-        那么    HUD显示目的地距离为5000km
-        而且    HUD显示到达目的地剩余时间为88h33m
-        而且    HUD显示下一个路口的距离为2km
         
     @DestDistance
     场景:	显示目的地距离失效，使用最后一次的有效值显示
@@ -277,21 +266,21 @@
         
     @NextCroessDistance
     场景:	显示下一个路口的距离为最大值
-        当      CANBUS上目的地距离值为50000km
+        当      CANBUS上目的地距离值为6553.4km
         而且    CANBUS上到达目的地剩余时间值为88h33m
-        当      CANBUS上下一个路口的距离值为5000km
+        当      CANBUS上下一个路口的距离值为65.534km
         
         而且    CANBUS上信号持续3秒
         
-        那么    HUD显示目的地距离为5000km
+        那么    HUD显示目的地距离为6553.4km
         而且    HUD显示到达目的地剩余时间为88h33m
-        那么    HUD显示下一个路口的距离为5000km
+        那么    HUD显示下一个路口的距离为65.5km
         
     @NextCroessDistance
     场景:	显示下一个路口的距离为非法值
         当      CANBUS上目的地距离值为2500km
         而且    CANBUS上到达目的地剩余时间值为88h33m
-        当      CANBUS上下一个路口的距离值为1048575
+        当      CANBUS上下一个路口的距离值为65535
         
         而且    CANBUS上信号持续3秒
         
@@ -300,30 +289,18 @@
         那么    HUD不显示下一个路口的距离
         
     @NextCroessDistance
-    场景:	显示下一个路口的距离超过最大值但不为非法值
-        当      CANBUS上目的地距离值为2500km
-        而且    CANBUS上到达目的地剩余时间值为88h33m
-        当      CANBUS上下一个路口的距离值为10000km
-        
-        而且    CANBUS上信号持续3秒
-        
-        那么    HUD显示目的地距离为2500km
-        而且    HUD显示到达目的地剩余时间为88h33m
-        那么    HUD显示下一个路口的距离为5000km
-        
-    @NextCroessDistance
     场景:	显示下一个路口的距离失效，使用最后一次的有效值显示
         当      CANBUS上目的地距离值为2500km
         而且    CANBUS上到达目的地剩余时间值为88h33m
-        当      CANBUS上下一个路口的距离值为2500km
+        而且    CANBUS上下一个路口的距离值为2km
         
         而且    CANBUS上信号持续3秒
         
         那么    HUD显示目的地距离为2500km
         而且    HUD显示到达目的地剩余时间为88h33m
-        那么    HUD显示下一个路口的距离为2500km
+        那么    HUD显示下一个路口的距离为2km
         
         当      CANBUS上信号断开3秒
-        那么    HUD显示下一个路口的距离为2500km
+        那么    HUD显示下一个路口的距离为2km
     
         
