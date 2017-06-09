@@ -6,7 +6,7 @@
     车速
     
     @HUDSettings
-    场景:	HUD显示模式为行驶信息+导航信息+车身报警信息
+    场景:   HUD显示模式为行驶信息+导航信息+车身报警信息
         当      CANBUS上显示模式为0
         而且    CANBUS上信号持续1秒
         
@@ -56,7 +56,7 @@
         那么    HUD显示低燃油报警
     
     @HUDSettings
-    场景:	HUD显示模式为行驶信息+车身报警信息
+    场景:   HUD显示模式为行驶信息+车身报警信息
         当      CANBUS上显示模式为1
         而且    CANBUS上信号持续1秒
         
@@ -106,7 +106,7 @@
         那么    HUD显示低燃油报警
         
     @HUDSettings
-    场景:	HUD显示模式为保留值
+    场景:   HUD显示模式为保留值
         假如    HUD的显示模式为默认模式
         当      CANBUS上显示模式为2
         而且    CANBUS上信号持续1秒
@@ -157,7 +157,7 @@
         那么    HUD显示低燃油报警
         
     @HUDSettings
-    场景:	HUD显示模式失效，使用最后一次的有效值显示
+    场景:   HUD显示模式失效，使用最后一次的有效值显示
         当      CANBUS上显示模式为1
         而且    CANBUS上信号持续1秒
         
@@ -213,34 +213,34 @@
         那么    HUD显示低燃油报警
         
     @HUDSettings
-    场景:	HUD亮度设置为默认
+    场景:   HUD亮度设置为默认
         假如    HUD显示亮度为默认
         当      CANBUS上HUD亮度设置为0
         而且    CANBUS上信号持续1秒
         那么    HUD显示亮度不改变
         
     @HUDSettings
-    场景:	HUD亮度设置为增强
+    场景:   HUD亮度设置为增强
         假如    HUD显示亮度为默认
         当      CANBUS上HUD亮度设置为1
         而且    CANBUS上信号持续1秒
         那么    HUD显示亮度增强
         
     @HUDSettings
-    场景:	HUD亮度设置为减弱
+    场景:   HUD亮度设置为减弱
         假如    HUD显示亮度为默认
         当      CANBUS上HUD亮度设置为1
         而且    CANBUS上信号持续1秒
         那么    HUD显示亮度减弱
         
     @HUDSettings
-    场景:	HUD亮度设置为保留值
+    场景:   HUD亮度设置为保留值
         当      CANBUS上有速度为4
         而且    CANBUS上信号持续1秒
         那么    HUD显示亮度不改变
         
     @HUDSettings
-    场景:	HUD亮度设置失效，使用最后一次的有效值显示
+    场景:   HUD亮度设置失效，使用最后一次的有效值显示
         假如    HUD显示亮度为默认
         当      CANBUS上HUD亮度设置为0
         而且    CANBUS上信号持续1秒
@@ -254,34 +254,34 @@
         那么    HUD显示亮度增强
         
     @HUDSettings
-    场景:	HUD角度设置为默认
+    场景:   HUD角度设置为默认
         假如    HUD角度设置为默认
         当      CANBUS上HUD角度设置为0
         而且    CANBUS上信号持续1秒
         那么    HUD角度不改变
         
     @HUDSettings
-    场景:	HUD角度设置为增加
+    场景:   HUD角度设置为增加
         假如    HUD角度设置为默认
         当      CANBUS上HUD角度设置为1
         而且    CANBUS上信号持续1秒
         那么    HUD角度增加
         
     @HUDSettings
-    场景:	HUD角度设置为减少
+    场景:   HUD角度设置为减少
         假如    HUD角度设置为默认
         当      CANBUS上HUD角度设置为2
         而且    CANBUS上信号持续1秒
         那么    HUD角度减少
         
     @HUDSettings
-    场景:	HUD角度设置为保留值
+    场景:   HUD角度设置为保留值
         当      CANBUS上有速度为3
         而且    CANBUS上信号持续1秒
         那么    HUD角度不改变
         
     @HUDSettings
-    场景:	HUD角度设置失效，使用最后一次的有效值显示
+    场景:   HUD角度设置失效，使用最后一次的有效值显示
         假如    HUD角度设置为默认
         当      CANBUS上HUD角度设置为0
         而且    CANBUS上信号持续1秒

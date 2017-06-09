@@ -13,15 +13,13 @@
     
     @speed
     场景:	速度在20秒内从0km/h增加到254km/h
-        当      CANBUS上有速度为0km/h
-        而且    CANBUS上速度在20秒内增加到254km/h
+        当      CANBUS上速度在20秒内从0km/h增加到254km/h
         那么    HUD显示速度在20秒内从0km/h增加到254km/h
         
     @speed
     场景:	速度在20秒内从254km/h下降到0km/h
-        当      CANBUS上有速度为254km/h
-        而且    CANBUS上速度在20秒内从254km/h下降到0km/h
-        那么    HUD显示速度在20秒内从254km/hkm/h下降到0km/h
+        当      CANBUS上速度在20秒内从254km/h下降到0km/h
+        那么    HUD显示速度在20秒内从254km/h下降到0km/h
         
     @speed
     场景:	非法速度
