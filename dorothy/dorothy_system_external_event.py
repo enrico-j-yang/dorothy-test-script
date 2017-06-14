@@ -55,6 +55,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.end_speed = 0
         self.current_speed = 0
         self.threads = []
+        self.longest_thread = None
+        self.longest_duration = 0
         self.speed_dict = {'Speed': None}
         self.rpm_dict = {'RPM': None,
                          'RPMValid': None,
@@ -178,19 +180,29 @@ class DorothySystemExternalEvent(SystemExternalEvent):
                 if key == 'Speed':
                     t = CallBackTimer(self.interval, self.duration, self.send_speed)
                     self.threads.append(t)
+                    if self.duration >= self.longest_duration:
+                        self.longest_thread = t
+                        self.longest_duration = self.duration
                     t.start()
                 elif key == 'RPM':
                     t = CallBackTimer(self.interval, self.duration, self.send_rpm_cruise_limit)
                     self.threads.append(t)
+                    if self.duration >= self.longest_duration:
+                        self.longest_thread = t
+                        self.longest_duration = self.duration
                     t.start()
                 elif key == 'CruiseLimitIndicator':
                     t = CallBackTimer(self.interval, self.duration, self.send_cruise_limit_indicator)
                     self.threads.append(t)
+                    if self.duration >= self.longest_duration:
+                        self.longest_thread = t
+                        self.longest_duration = self.duration
                     t.start()
 
         # wait for all timer threads end
-        for t in self.threads:
-            t.join()
+        self.longest_thread.join()
+        # for t in self.threads:
+        #    t.join()
 
     def stop_generate_signal(self):
         '''
