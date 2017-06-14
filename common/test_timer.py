@@ -20,22 +20,22 @@ class CallBackTimer(threading.Thread):
 
     def run(self):
         old_time = time.time()
-        logging.debug("start_time:" + str(old_time))
+        #logging.debug("start_time:" + str(old_time))
         if not self.interval == 0:
             times = int(self.duration / self.interval)
-            logging.debug("times:" + str(times))
+            #logging.debug("times:" + str(times))
             for step in range(1, times + 1):
                 new_time = time.time()
-                logging.debug("new_time:" + str(new_time))
+                #logging.debug("new_time:" + str(new_time))
                 com_time = new_time - old_time
-                logging.debug("com_time:" + str(com_time))
+                #logging.debug("com_time:" + str(com_time))
                 sleep_time = self.interval / 1000
-                logging.debug("sleep_time:" + str(sleep_time))
+                #logging.debug("sleep_time:" + str(sleep_time))
                 time.sleep(sleep_time - com_time)
                 old_time = time.time()
-                logging.debug("old_time:" + str(old_time))
+                #logging.debug("old_time:" + str(old_time))
                 self.cb(step * self.interval)
-                logging.debug("Callback step:" + str(step))
+                #logging.debug("Callback step:" + str(step))
 
     def stop(self):
         self.join()

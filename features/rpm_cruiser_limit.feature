@@ -42,7 +42,7 @@
         而且    CANBUS上有合法引擎转速
         而且    CANBUS上限速控制状态为准备中
         而且    CANBUS上巡航控制状态为关闭
-        而且    CANBUS上限速巡航速度为不可用
+        而且    CANBUS上限速巡航速度为255
         而且    CANBUS上发动机状态信息为运行中
         
         当      CANBUS上限速主开关灯指示为打开
@@ -50,13 +50,13 @@
         而且    CANBUS上巡航主开关灯指示为关闭
         而且    CANBUS上巡航激活状态灯为关闭
         
-        而且    CANBUS上信号持续3秒
+        而且    CANBUS上信号持续1秒
         
         当      CANBUS上限速控制状态为激活
         而且    CANBUS上限速巡航速度为60
         而且    CANBUS上限速激活状态灯为打开
         
-        而且    CANBUS上信号持续3秒
+        而且    CANBUS上信号持续1秒
         那么    HUD显示限速图标，限速60km/h
         
     @LimitControl
@@ -73,14 +73,14 @@
         而且    CANBUS上巡航主开关灯指示为关闭
         而且    CANBUS上巡航激活状态灯为关闭
         
-        而且    CANBUS上信号持续3秒
+        而且    CANBUS上信号持续1秒
         
         那么    HUD显示限速图标，限速60km/h
         
         当      CANBUS上限速控制状态为关闭
-        而且    CANBUS上限速巡航速度为不可用
+        而且    CANBUS上限速巡航速度为255
         
-        而且    CANBUS上信号持续3秒
+        而且    CANBUS上信号持续1秒
         那么    HUD显示限速图标消失
         
     @LimitControl
@@ -184,7 +184,7 @@
         而且    CANBUS上有合法引擎转速
         而且    CANBUS上巡航控制状态为准备中
         而且    CANBUS上限速控制状态为关闭
-        而且    CANBUS上限速巡航速度为不可用
+        而且    CANBUS上限速巡航速度为255
         而且    CANBUS上发动机状态信息为运行中
         
         当      CANBUS上巡航主开关灯指示为打开
@@ -219,7 +219,7 @@
         那么    HUD显示巡航图标，巡航60km/h
         
         当      CANBUS上巡航控制状态为关闭
-        而且    CANBUS上限速巡航速度为不可用
+        而且    CANBUS上限速巡航速度为255
         
         而且    CANBUS上信号持续3秒
         那么    HUD显示巡航图标消失
