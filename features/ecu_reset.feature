@@ -83,7 +83,7 @@
         当      CANBUS上有ECU复位请求，参数为非法值
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有ECU复位否定响应，参数OriginalRequestServiceIdentifier为ECU复位，参数NegativeResponseCode为子功能不支持
+        那么    CANBUS上有ECU复位否定响应，参数NegativeResponseCode为子功能不支持
 
     @ECUReset
     场景:	ECU复位请求报文长度错误
@@ -91,7 +91,7 @@
         当      CANBUS上有ECU复位请求，报文长度为1个字节
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有ECU复位否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为报文长度错误
+        那么    CANBUS上有ECU复位否定响应，参数NegativeResponseCode为报文长度错误
 
     @ECUReset
     场景:	ECU复位请求报文超长
@@ -99,7 +99,7 @@
         当      CANBUS上有ECU复位请求，报文长度为1025个字节，参数为进入扩展诊断会话，其余字节填充0x00
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有ECU复位否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为报文长度错误
+        那么    CANBUS上有ECU复位否定响应，参数NegativeResponseCode为报文长度错误
 
     @ECUReset, @wip
     场景:	ECU复位请求条件未满足
@@ -108,7 +108,7 @@
         当      CANBUS上有ECU复位请求，参数为??
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有ECU复位否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为条件未满足
+        那么    CANBUS上有ECU复位否定响应，参数NegativeResponseCode为条件未满足
 
     @ECUReset, @wip
     场景:	ECU复位请求安全访问拒绝
@@ -117,6 +117,6 @@
         当      CANBUS上有受保护的ECU复位请求，参数为??
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有ECU复位否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为安全访问拒绝
+        那么    CANBUS上有ECU复位否定响应，参数NegativeResponseCode为安全访问拒绝
 
 

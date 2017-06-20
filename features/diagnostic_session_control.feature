@@ -67,7 +67,7 @@
         当      CANBUS上有诊断会话控制请求，参数为非法值
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为子功能不支持
+        那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为子功能不支持
 
     @DiagnosticSessionControl
     场景:	诊断会话控制请求报文长度错误
@@ -75,7 +75,7 @@
         当      CANBUS上有诊断会话控制请求，报文长度为1个字节
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为报文长度错误
+        那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为报文长度错误
 
     @DiagnosticSessionControl
     场景:	诊断会话控制请求超长
@@ -83,7 +83,7 @@
         当      CANBUS上有诊断会话控制请求，报文长度为1025个字节，参数为进入扩展诊断会话，其余字节填充0x00
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为报文长度错误
+        那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为报文长度错误
 
     @DiagnosticSessionControl
     场景:	从默认会话进入编程会话失败
@@ -91,7 +91,7 @@
         当      CANBUS上有诊断会话控制请求，参数为进入编程会话
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为条件未满足
+        那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
     @DiagnosticSessionControl
     场景:	从编程会话进入扩展诊断会话失败
@@ -99,6 +99,6 @@
         当      CANBUS上有诊断会话控制请求，参数为进入扩展诊断会话
         而且    CANBUS上信号发送一次
 
-        那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为诊断会话控制，参数NegativeResponseCode为条件未满足
+        那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
 

@@ -67,7 +67,7 @@
     当      CANBUS上有读取DTC信息请求，报文长度为1个字节
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为报文长度错误或者格式非法
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
 
   @ReadDTCInformation
   场景:    读取 DTC 信息 – 通过状态掩码报告 DTC 数目请求报文只有请求名称和子功能
@@ -76,7 +76,7 @@
     当      CANBUS上有读取DTC信息请求，报文长度为2个字节，参数Sub-Fucntion为通过状态掩码报告DTC数目
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为报文长度错误或者格式非法
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
 
   @ReadDTCInformation
   场景:    读取 DTC 信息 – 通过状态掩码报告 DTC 数目请求报文只有请求名称和子功能
@@ -85,7 +85,7 @@
     当      CANBUS上有读取DTC信息请求，报文长度为2个字节，参数Sub-Fucntion为通过状态掩码报告 DTC
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为报文长度错误或者格式非法
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
 
   @ReadDTCInformation
   场景:    读取 DTC 信息 – 通过状态掩码报告 DTC 数目请求报文长度超长
@@ -94,7 +94,7 @@
     当      CANBUS上有读取DTC信息请求，报文长度为1025个字节，参数Sub-Fucntion为0xFF，参数DTCStatusMask为0xFF，其余字节填充0x00
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为报文长度错误或者格式非法
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
 
   @ReadDTCInformation
   场景:    读取 DTC 信息请求子功能不支持
@@ -103,7 +103,7 @@
     当      CANBUS上有读取DTC信息请求，参数Sub-Fucntion为0xFF，参数DTCStatusMask为0xFF
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为子功能不支持
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为子功能不支持
 
   @ReadDTCInformation
   场景:    读取 DTC 信息请求子功能不支 持通过DTC码报告DTCSnapshot记录
@@ -112,7 +112,7 @@
     当      CANBUS上有读取DTC信息请求，参数Sub-Fucntion为通过DTC码报告DTCSnapshot记录，参数DTCMaskRecord为0xFFFFFF，参数DTCSnapshotRecordNumber0xFF
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为子功能不支持
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为子功能不支持
 
   @ReadDTCInformation
   场景:    读取 DTC 信息请求子功能不支持 通过 DTC 码报告 DTC 扩展数据记录
@@ -121,7 +121,7 @@
     当      CANBUS上有读取DTC信息请求，参数Sub-Fucntion为通过DTC码报告DTC扩展数据记录，参数DTCMaskRecord为0xFFFFFF，参数DTCSnapshotRecordNumber0xFF
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为子功能不支持
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为子功能不支持
 
   @ReadDTCInformation
   场景:    读取 DTC 信息请求子功能不支持 报告支持的 DTC
@@ -130,6 +130,6 @@
     当      CANBUS上有读取DTC信息请求，参数Sub-Fucntion为报告支持的DTC
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有诊断会话控制否定响应，参数OriginalRequestServiceIdentifier为通过状态掩码报告DTC数目，参数NegativeResponseCode为子功能不支持
+    那么    CANBUS上有读取DTC信息否定响应，参数NegativeResponseCode为子功能不支持
 
 
