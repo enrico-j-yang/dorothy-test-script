@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 environment.py is pre-process and post-process for all step implementation files
 
-'''
+"""
 import logging
 import platform
 import sys
@@ -27,11 +27,11 @@ class PlatformNotSupportedError(Exception):
 
 
 def before_all(context):
-    '''
+    """
     Initial serial ports, test input, test result. Set mock_enable to True to enable mock mode.
     :param context: behave global variable
     :return: None
-    '''
+    """
     if platform.system() == 'Windows':
         try:
             context.control_board_serial_port = TestSerial(port='COM3',
@@ -109,10 +109,10 @@ def before_all(context):
 
 
 def after_all(context):
-    '''
+    """
     Close all serial port after all feature done
     :param context: behave global variable
     :return: None
-    '''
+    """
     context.control_board_serial_port.close()
     context.result_serial_port.close()

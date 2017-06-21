@@ -10,7 +10,7 @@
     场景:	写入ECU变码数据成功
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -30,7 +30,7 @@
     场景:	写入车身号码VIN编码格式数据成功
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -49,7 +49,7 @@
     场景:	写入数据请求，报文长度只有1字节
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -68,7 +68,7 @@
     场景:	写入数据请求，报文长度只有3字节
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -87,7 +87,7 @@
     场景:	写入数据请求，报文长度超长
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -115,7 +115,7 @@
     场景:	写入数据请求，数据标识符不支持，请求数据超出范围
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -134,7 +134,7 @@
     场景:	写入数据请求，数据标识符只读，请求数据超出范围
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值
@@ -162,7 +162,7 @@
     场景:	写入数据请求，请求一般编程错误
         假如    HUD当前诊断会话模式为编程会话
 
-        当      CANBUS上有安全访问请求，参数为请求级别2种子
+        当      CANBUS上有安全访问请求，参数为请求级别1种子
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1种子，参数SecuritySeed为有效值

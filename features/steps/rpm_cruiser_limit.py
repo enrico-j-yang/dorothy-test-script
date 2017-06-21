@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 speed.py is step implementation file for speed.feature
 
-'''
+"""
 import logging
+from behave import *
 
 
 @when(u'CANBUS上有引擎转速为{rpm}')
