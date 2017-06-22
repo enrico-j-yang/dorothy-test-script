@@ -59,7 +59,7 @@
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1密钥
 
-        当      CANBUS上有写入数据请求，报文长度只有1字节
+        当      CANBUS上有写入数据请求，报文长度为1字节
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有写入数据否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -78,7 +78,7 @@
 
         那么    CANBUS上有安全访问肯定响应，参数SecurityAccessType为级别1密钥
 
-        当      CANBUS上有写入数据请求，报文长度只有3字节，参数DataIdentifier为ECU变码
+        当      CANBUS上有写入数据请求，报文长度为3字节，参数DataIdentifier为ECU变码
         而且    CANBUS上信号发送1次
 
         那么    CANBUS上有写入数据否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
