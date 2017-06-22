@@ -5,9 +5,6 @@ It defines system external event class and methods
 
 """
 import logging
-import sys
-
-sys.path.append("../..")
 
 from common.test_input import TestInput
 

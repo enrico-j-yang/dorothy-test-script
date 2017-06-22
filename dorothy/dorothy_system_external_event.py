@@ -6,10 +6,6 @@ It defines system external event class and methods
 """
 import logging
 
-import sys
-
-sys.path.append("../..")
-
 from common.system_external_event import SystemExternalEvent
 from common.test_timer import CallBackTimer
 
@@ -72,6 +68,20 @@ class DorothySystemExternalEvent(SystemExternalEvent):
                          'RPM': self.rpm_dict,
                          'CruiseLimitIndicator': self.cruise_limit_dict}
         self.msg = {}
+
+    def set_up(self):
+        self.interval = 0
+        self.duration = 0
+        self.init_speed = 0
+        self.end_speed = 0
+        self.current_speed = 0
+        self.threads = []
+        self.longest_thread = None
+        self.longest_duration = 0
+        self.msg = {}
+
+    #def tear_down(self):
+
 
     def set_value(self, key, value):
         """
@@ -150,6 +160,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
         logging.debug("set_initial_speed:" + str(speed))
         self.init_speed = int(speed)
+        self.msg[self.field_map['Speed']] = self.msg_dict[self.field_map['Speed']]
         self.msg[self.field_map['Speed']]['Speed'] = self.init_speed
 
     def set_end_speed(self, speed):
@@ -160,7 +171,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
         logging.debug("set_end_speed:" + str(speed))
         self.end_speed = int(speed)
-        self.msg[self.field_map['Speed']]['Speed'] = self.end_speed
 
     def start_generate_signal(self):
         """
@@ -220,7 +230,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         logging.debug("end_speed:" + str(self.end_speed))
         logging.debug("duration:" + str(self.duration))
         self.current_speed = self.init_speed + (self.end_speed -
-                                                self.init_speed * eclipse_time / self.duration)
+                                                self.init_speed) * eclipse_time / self.duration
+
+        self.msg[self.field_map['Speed']]['Speed'] = self.current_speed
         logging.debug("current_speed:" + str(self.current_speed))
 
     def send_rpm_cruise_limit(self, eclipse_time):

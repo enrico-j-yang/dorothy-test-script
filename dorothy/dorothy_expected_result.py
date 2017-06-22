@@ -4,9 +4,6 @@ expected_result.py derives from test_result.py
 It defines expected result serial feedback
 
 """
-import sys
-
-sys.path.append("../..")
 
 from common.expected_result import ExpectedResult
 

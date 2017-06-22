@@ -4,10 +4,6 @@ system_internal_event.py derives from test_input.py
 It defines system internal event class and methods
 
 """
-import sys
-
-sys.path.append("../..")
-
 from common.test_input import TestInput
 
 

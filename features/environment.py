@@ -5,15 +5,12 @@ environment.py is pre-process and post-process for all step implementation files
 """
 import logging
 import platform
-import sys
-
-sys.path.append("../..")
 
 from common.test_input import TestInput
-from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
-from dorothy.dorothy_expected_result import DorothyExpectedResult
-from dorothy.dorothy_actual_result import DorothyActualResult
 from common.test_serial import TestSerial
+from dorothy.dorothy_actual_result import DorothyActualResult
+from dorothy.dorothy_expected_result import DorothyExpectedResult
+from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -116,3 +113,7 @@ def after_all(context):
     """
     context.control_board_serial_port.close()
     context.result_serial_port.close()
+
+
+def before_scenario(context, scenario):
+    context.dorothyTestInput.sysExtEvt.set_up()

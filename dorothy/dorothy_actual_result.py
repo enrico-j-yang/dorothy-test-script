@@ -4,11 +4,9 @@ dorothy_actual_result.py derives from actual_result.py
 It defines actual result feedback 
 
 """
-import logging
-import sys
-from time import sleep
 
-sys.path.append("../..")
+import logging
+from time import sleep
 
 from common.actual_result import ActualResult
 
