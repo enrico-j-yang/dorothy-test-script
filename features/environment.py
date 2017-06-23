@@ -115,5 +115,6 @@ def after_all(context):
     context.result_serial_port.close()
 
 
+# noinspection PyUnusedLocal
 def before_scenario(context, scenario):
     context.dorothyTestInput.sysExtEvt.set_up()

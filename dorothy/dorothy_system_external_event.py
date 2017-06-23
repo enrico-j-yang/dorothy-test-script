@@ -80,8 +80,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.longest_duration = 0
         self.msg = {}
 
-    #def tear_down(self):
-
+    # def tear_down(self):
 
     def set_value(self, key, value):
         """
