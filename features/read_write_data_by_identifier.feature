@@ -105,7 +105,7 @@
 
     那么    CANBUS上有读取数据肯定响应，参数DataIdentifier为ECU系统名称，参数DataRecord为？？
 
-  @ReadDataByIdentifier, @wip, @debug
+  @ReadDataByIdentifier, @wip
   场景:    默认会话下读取多个数据成功
     假如    HUD当前诊断会话模式为默认会话
 
