@@ -267,9 +267,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为子功能不支持
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -297,9 +299,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为报文长度错误
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -312,9 +316,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -327,9 +333,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
 #### 引导程序否定响应用例 ####
@@ -343,9 +351,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为子功能不支持
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -373,9 +383,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为报文长度错误
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -388,9 +400,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
   @DiagnosticSessionControl
@@ -403,9 +417,11 @@
 
     那么    CANBUS上有诊断会话控制否定响应，参数NegativeResponseCode为条件未满足
 
-    例子:   寻址方式
+    例子:   寻址方式与禁止肯定响应组合
       | comm types      | SPRMB |
       | 以物理寻址方式的  | 假    |
+      | 以功能寻址方式的  | 假    |
+      | 以物理寻址方式的  | 真    |
       | 以功能寻址方式的  | 真    |
 
 
