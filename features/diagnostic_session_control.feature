@@ -39,7 +39,7 @@
   @DiagnosticSessionControl
   场景大纲:    从扩展诊断会话进入扩展诊断会话成功
     假如    HUD当前诊断模式运行环境为应用程序
-    假如    HUD当前诊断会话模式为默认会话
+    假如    HUD当前诊断会话模式为扩展诊断会话
     假如    HUD当前安全访问状态为锁定
     当      CANBUS上有<comm types>诊断会话控制请求，参数Sub-Function为进入扩展诊断会话，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
