@@ -14,7 +14,7 @@
     当      CANBUS上有<comm types>ECU复位请求，参数Sub-Function为硬件复位，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有ECU复位肯定响应，参数为硬件复位
+    那么    CANBUS上有ECU复位肯定响应，参数Sub-Function为硬件复位
 
     例子:   硬件复位进入默认会话用例
       | session environment | session mode | comm types      |
@@ -37,7 +37,7 @@
     当      CANBUS上有ECU复位请求，参数Sub-Function为钥匙开关复位，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有ECU复位肯定响应，参数为钥匙开关复位
+    那么    CANBUS上有ECU复位肯定响应，参数Sub-Function为钥匙开关复位
 
   @ECUReset, @wip
   场景:    从扩展诊断会话钥匙开关复位进入默认会话成功
@@ -47,7 +47,7 @@
     当      CANBUS上有ECU复位请求，参数Sub-Function为钥匙开关复位，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有ECU复位肯定响应，参数为钥匙开关复位
+    那么    CANBUS上有ECU复位肯定响应，参数Sub-Function为钥匙开关复位
 
   @ECUReset, @wip
   场景:    从编程会话钥匙开关复位进入默认会话成功
@@ -57,7 +57,7 @@
     当      CANBUS上有ECU复位请求，参数Sub-Function为钥匙开关复位，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有ECU复位肯定响应，参数为钥匙开关复位
+    那么    CANBUS上有ECU复位肯定响应，参数Sub-Function为钥匙开关复位
 
   @ECUReset
   场景大纲:    从默认会话软件复位进入默认会话成功
@@ -67,7 +67,7 @@
     当      CANBUS上有<comm types>ECU复位请求，参数Sub-Function为软件复位，禁止肯定响应位为假
     而且    CANBUS上信号发送一次
 
-    那么    CANBUS上有ECU复位肯定响应，参数为软件复位
+    那么    CANBUS上有ECU复位肯定响应，参数Sub-Function为软件复位
 
     例子:   软件复位进入默认会话用例
       | session environment | session mode | comm types      |
