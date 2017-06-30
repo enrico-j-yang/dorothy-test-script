@@ -7,23 +7,24 @@
   ============================================
   请求下载，数据传输，请求退出传输
 
+#### 肯定响应用例 ####
   @TransferData, @wip
   场景:    数据传输成功
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤10次
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输肯定响应
@@ -33,18 +34,18 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x01，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x01，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤10次
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输肯定响应
@@ -54,18 +55,18 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x10，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x10，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤10次
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输肯定响应
@@ -75,39 +76,40 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤5次
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x04，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x04，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为0x04，参数TransferResponseParameterRecord为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x05开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x05开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x05开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤5次
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输肯定响应
 
+#### 否定响应用例 ####
   @TransferData
   场景:    请求下载请求报文长度只有RequestServiceIdentifier
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，报文长度为1个字节
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，报文长度为1个字节
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -117,7 +119,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，报文长度为2个字节，参数DataFormatIdentifier为0x00
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，报文长度为2个字节，参数DataFormatIdentifier为0x00
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -127,7 +129,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，报文长度为3个字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，报文长度为3个字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -137,7 +139,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，报文长度为7个字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，报文长度为7个字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -147,7 +149,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，报文长度为1025字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，报文长度为1025字节，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -157,18 +159,18 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上步骤10次
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为条件不满足
@@ -178,7 +180,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0xFF，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0xFF，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为请求数据超出范围
@@ -188,7 +190,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x00，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x00，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为请求数据超出范围
@@ -198,7 +200,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为请求数据超出范围
@@ -208,7 +210,7 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为锁定
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为安全访问拒绝
@@ -219,7 +221,7 @@
     假如    HUD当前安全访问状态为解锁2
     假如    HUD当前由于某种故障而拒绝诊断工具的下载操作时？？
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为上传/下载操作拒绝
@@ -229,12 +231,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，报文长度为1个字节
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，报文长度为1个字节
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -244,12 +246,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，报文长度为2个字节，参数BlockSequenceCounter为0x00
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，报文长度为2个字节，参数BlockSequenceCounter为0x00
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -259,12 +261,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，报文长度为1025个字节，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，报文长度为1025个字节，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -274,12 +276,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为请求数据超出范围
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为请求顺序错误
@@ -289,12 +291,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
@@ -307,12 +309,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为请求数据超出范围
@@ -322,12 +324,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为传输数据暂停
@@ -337,12 +339,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为传输数据暂停
@@ -352,12 +354,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为一般编程错误
@@ -367,18 +369,18 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤5次
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x03，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x03，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为块序列计数器错误
@@ -388,13 +390,13 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
     假如    HUD当前主电源脚电压过高
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为电压过高/过低
@@ -404,13 +406,13 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
     假如    HUD当前主电源脚电压过低
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输否定响应，参数NegativeResponseCode为电压过高/过低
@@ -420,18 +422,18 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为从0x00开始，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为从0x00开始，参数TransferResponseParameterRecord为？？
     而且    CANBUS上循环以上数据传输步骤10次
 
-    当      CANBUS上有退出传输请求，报文长度为1025个字节
+    当      CANBUS上有以物理寻址方式的退出传输请求，报文长度为1025个字节
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输否定响应，参数NegativeResponseCode为报文长度错误或者格式非法
@@ -441,17 +443,17 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载肯定响应，参数LengthFormatIdentifier为？？，参数MaxNumberOfBlockLength为？？
 
-    当      CANBUS上有数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
+    当      CANBUS上有以物理寻址方式的数据传输请求，参数BlockSequenceCounter为0x00，参数TransferRequestParameterRecord为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有数据传输肯定响应，参数BlockSequenceCounter为0x00，参数TransferResponseParameterRecord为？？
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输否定响应，参数NegativeResponseCode为请求顺序错误
@@ -461,12 +463,12 @@
     假如    HUD当前诊断会话模式为编程会话
     假如    HUD当前安全访问状态为解锁2
 
-    当      CANBUS上有请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
+    当      CANBUS上有以物理寻址方式的请求下载请求，参数DataFormatIdentifier为0x00，参数addressAndLengthFormatIdentifier为0x44，参数MemoryAddress为？？，参数MemorySize为？？
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求下载否定响应，参数NegativeResponseCode为请求数据超出范围
 
-    当      CANBUS上有退出传输请求
+    当      CANBUS上有以物理寻址方式的退出传输请求
     而且    CANBUS上信号发送1次
 
     那么    CANBUS上有请求退出传输否定响应，参数NegativeResponseCode为请求顺序错误
