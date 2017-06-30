@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 environment.py is pre-process and post-process for all step implementation files
 
-'''
+"""
 import logging
 import platform
-import sys
-
-sys.path.append("../..")
 
 from common.test_input import TestInput
-from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
-from dorothy.dorothy_expected_result import DorothyExpectedResult
-from dorothy.dorothy_actual_result import DorothyActualResult
 from common.test_serial import TestSerial
+from dorothy.dorothy_actual_result import DorothyActualResult
+from dorothy.dorothy_expected_result import DorothyExpectedResult
+from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -27,11 +24,11 @@ class PlatformNotSupportedError(Exception):
 
 
 def before_all(context):
-    '''
+    """
     Initial serial ports, test input, test result. Set mock_enable to True to enable mock mode.
     :param context: behave global variable
     :return: None
-    '''
+    """
     if platform.system() == 'Windows':
         try:
             context.control_board_serial_port = TestSerial(port='COM3',
@@ -109,10 +106,15 @@ def before_all(context):
 
 
 def after_all(context):
-    '''
+    """
     Close all serial port after all feature done
     :param context: behave global variable
     :return: None
-    '''
+    """
     context.control_board_serial_port.close()
     context.result_serial_port.close()
+
+
+# noinspection PyUnusedLocal
+def before_scenario(context, scenario):
+    context.dorothyTestInput.sysExtEvt.set_up()

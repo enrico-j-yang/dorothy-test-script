@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 speed.py is step implementation file for speed.feature
 
-'''
+"""
 import logging
 from time import sleep
+
+from behave import *
 
 
 @when(u'CANBUS上有速度为{speed}km/h')
