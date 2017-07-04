@@ -9,6 +9,10 @@ import logging
 from common.system_external_event import SystemExternalEvent
 from common.test_timer import CallBackTimer
 
+from can_sim.can_serial import *
+from can_sim.package_set import *
+from can_sim.nav_script import *
+
 
 class UnknownResultError(Exception):
     pass
@@ -89,8 +93,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :param value: test result dictionary value
         :return: None
         """
-        self.msg[self.field_map[key]] = self.msg_dict[self.field_map[key]]
-        self.msg[self.field_map[key]][key] = value
+        # self.msg[self.field_map[key]] = self.msg_dict[self.field_map[key]]
+        # self.msg[self.field_map[key]][key] = value
 
         if key == 'Speed':
             self.init_speed = int(value)
@@ -228,11 +232,20 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         logging.debug("init_speed:" + str(self.init_speed))
         logging.debug("end_speed:" + str(self.end_speed))
         logging.debug("duration:" + str(self.duration))
-        self.current_speed = self.init_speed + (self.end_speed -
-                                                self.init_speed) * eclipse_time / self.duration
+        self.current_speed = int(self.init_speed + (self.end_speed -
+                                                    self.init_speed) * eclipse_time / self.duration)
 
         self.msg[self.field_map['Speed']]['Speed'] = self.current_speed
         logging.debug("current_speed:" + str(self.current_speed))
+        self.speed_p.set_speed(int(self.current_speed))
+        send_status = self.control_board_serial_port.send_data(int(self.speed_p.get_msg_id(), 16),
+                                                               self.speed_p.get_data()[1])
+        if send_status == 1:
+            logging.debug("发送成功")
+        elif send_status == -1:
+            logging.debug("请生成数据")
+        else:
+            logging.error("发送失败")
 
     def send_rpm_cruise_limit(self, eclipse_time):
         logging.debug("eclipse_time:" + str(eclipse_time))

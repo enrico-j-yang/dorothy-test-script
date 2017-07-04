@@ -12,13 +12,23 @@ from behave import *
 @when(u'CANBUS上有速度为{speed}km/h')
 def step_impl(context, speed):
     logging.debug("speed: " + speed)
-    context.dorothyTestInput.sysExtEvt.set_value('Speed', int(speed))
+    # context.dorothyTestInput.sysExtEvt.set_value('Speed', int(speed))
+
+    if context.nav_script is not None:
+        context.nav_script.set_car_speed(int(speed))
+        context.speed_p.set_speed(int(speed))
+        context.p_set.record_one_time_data(int(context.speed_p.get_msg_id(), 16), context.speed_p.get_data()[1])
+        context.p_set.set(context.p_set.var_speed,
+                          context.speed_p.get_data())
 
 
 @when(u'CANBUS上信号持续{duration}秒')
 def step_impl(context, duration):
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration) * 1000)
-    context.dorothyTestInput.sysExtEvt.start_generate_signal()
+    #context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration) * 1000)
+    #context.dorothyTestInput.sysExtEvt.start_generate_signal()
+    context.p_set.start_send()
+    sleep(int(duration))
+    context.p_set.stop_send()
 
 
 @then(u'HUD显示速度为{speed}km/h')

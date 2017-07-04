@@ -40,7 +40,7 @@ class DorothyActualResult(ActualResult):
         # read test command to serial port
         out_bytes = ''
         # let's wait one second before reading output (let's give device time to answer)
-        sleep(0.1)
+        #sleep(0.1)
         out_buffer_bytes = self.result_serial_port.inWaiting()
         while out_buffer_bytes > 0:
             out_bytes = self.result_serial_port.readline()
