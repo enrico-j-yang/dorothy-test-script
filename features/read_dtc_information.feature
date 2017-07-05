@@ -839,7 +839,7 @@
       | 以功能寻址方式的  | 扩展诊断会话    |
 
   @ReadDTCInformation
-  场景大纲:    读取 DTC 信息 – 通过状态掩码报告 DTC 数目请求报文只有请求名称和子功能
+  场景大纲:    读取 DTC 信息 – 通过状态掩码报告 DTC请求报文只有请求名称和子功能
     假如    HUD当前诊断模式运行环境为应用程序
     假如    HUD当前诊断会话模式为<session mode>
     假如    HUD当前安全访问状态为锁定
@@ -990,7 +990,7 @@
 
 #### 肯定响应用例 ####
   @ControlDTCSetting
-  场景大纲:    控制DTC设置打开成功
+  场景大纲:    控制DTC设置打开成功，禁止肯定响应位为假
     假如    HUD当前诊断模式运行环境为<session environment>
     假如    HUD当前诊断会话模式为<session mode>
     假如    HUD当前安全访问状态为锁定
@@ -1032,7 +1032,7 @@
       | 引导程序             | 编程会话      | 以功能寻址方式的  |
 
   @ControlDTCSetting
-  场景大纲:    控制DTC设置关闭成功
+  场景大纲:    控制DTC设置关闭成功，禁止肯定响应位为假
     假如    HUD当前诊断模式运行环境为<session environment>
     假如    HUD当前诊断会话模式为<session mode>
     假如    HUD当前安全访问状态为锁定
@@ -1074,7 +1074,7 @@
       | 引导程序             | 编程会话      | 以功能寻址方式的  |
 
   @ControlDTCSetting
-  场景大纲:    控制DTC设置打开成功
+  场景大纲:    控制DTC设置打开成功，禁止肯定响应位为真
     假如    HUD当前诊断模式运行环境为<session environment>
     假如    HUD当前诊断会话模式为<session mode>
     假如    HUD当前安全访问状态为锁定
@@ -1114,7 +1114,7 @@
       | 引导程序             | 编程会话      | 以功能寻址方式的  |
 
   @ControlDTCSetting
-  场景大纲:    控制DTC设置关闭成功
+  场景大纲:    控制DTC设置关闭成功，禁止肯定响应位为真
     假如    HUD当前诊断模式运行环境为<session environment>
     假如    HUD当前诊断会话模式为<session mode>
     假如    HUD当前安全访问状态为锁定
