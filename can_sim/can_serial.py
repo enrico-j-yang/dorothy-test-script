@@ -100,5 +100,5 @@ class SerialPort(object):
                                             self.device_index,
                                             self.can_index,
                                             byref(vci_can_obj), 1)
-        #print("发送状态%d--%s" % (send_status, msg_data))
+        # print("发送状态%d--%s" % (send_status, msg_data))
         return send_status

@@ -3,25 +3,17 @@
 environment.py is pre-process and post-process for all step implementation files
 
 """
-import logging
 import platform
 
+from can_sim.can_serial import *
+from can_sim.nav_script import *
 from common.test_input import TestInput
 from common.test_serial import TestSerial
 from dorothy.dorothy_actual_result import DorothyActualResult
 from dorothy.dorothy_expected_result import DorothyExpectedResult
-from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
 from dorothy.dorothy_log_control import LogControl
-from can_sim.can_serial import *
-from can_sim.package_set import *
-from can_sim.nav_script import *
-from can_sim.speed_p import *
-from can_sim.engine_p import *
-from can_sim.tire_p import *
-from can_sim.hud_set_p import *
-from can_sim.fuel_p import *
-from can_sim.ldw_p import *
-from can_sim.navigation_p import *
+from dorothy.dorothy_package_set import *
+from dorothy.dorothy_system_external_event import DorothySystemExternalEvent
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -40,17 +32,10 @@ def before_all(context):
     :param context: behave global variable
     :return: None
     """
-    context.speed_p = SpeedP()
-    context.engine_p = CoolantTemperatureP()
-    context.tire_p = TireP()
-    context.hud_set_p = HudSetP()
-    context.fuel_p = FuelP()
-    context.ldw_p = LdwP()
-    context.navigation_p = NavigationP()
 
     context.log_control = LogControl
     context.can_serial = SerialPort(context.log_control)
-    context.p_set = PackageSet(context.can_serial)
+    context.p_set = DorothyPackageSet(context.can_serial)
     context.nav_script = NavScript(context.can_serial)
     context.nav_script.set_log_frame(context.log_control)
 
@@ -95,12 +80,17 @@ def after_all(context):
     :param context: behave global variable
     :return: None
     """
-    logging.info("断开中....")
-    if context.control_board_serial_port.disconnect() == 1:
-        logging.info("断开成功")
-    else:
-        logging.error("断开错误")
-    context.result_serial_port.close()
+    if context.control_board_serial_port is not None:
+        logging.info("断开中....")
+        if context.control_board_serial_port.disconnect() == 1:
+            logging.info("断开成功")
+        else:
+            logging.error("断开错误")
+
+    try:
+        context.result_serial_port.close()
+    except AttributeError:
+        logging.error("close port error")
 
 
 # noinspection PyUnusedLocal

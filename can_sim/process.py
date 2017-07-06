@@ -1,7 +1,7 @@
 # -- coding: utf-8 --
 
 
-class Processer():
+class Processer:
 
     # 报文标识符
     msg_id = 0
@@ -178,4 +178,4 @@ class Processer():
                 data_str += " "
             index += 1
         # data_str += "]"
-        return (data_str, self.elements)
+        return data_str, self.elements

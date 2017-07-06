@@ -7,11 +7,14 @@ It defines system external event class and methods
 import logging
 
 from common.system_external_event import SystemExternalEvent
-from common.test_timer import CallBackTimer
 
-from can_sim.can_serial import *
-from can_sim.package_set import *
-from can_sim.nav_script import *
+from can_sim.speed_p import *
+from can_sim.engine_p import *
+from can_sim.tire_p import *
+from can_sim.hud_set_p import *
+from can_sim.fuel_p import *
+from can_sim.ldw_p import *
+from can_sim.navigation_p import *
 
 
 class UnknownResultError(Exception):
@@ -26,20 +29,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     :static variable control_board_serial_port: control board serial port handler
     """
     control_board_serial_port = None
-    cycle_dict = {'Speed': 50,
-                  'RPM': 10,
-                  'CruiseLimitIndicator': 100}
-    field_map = {'Speed': 'Speed',
-                 'RPM': 'RPM',
-                 'RPMValid': 'RPM',
-                 'LimitControlStatus': 'RPM',
-                 'CruiseControlStatus': 'RPM',
-                 'LimitCruiseSpeed': 'RPM',
-                 'EngineRunningStatus': 'RPM',
-                 'LimitIndicator': 'CruiseLimitIndicator',
-                 'LimitUnavailDisplay': 'CruiseLimitIndicator',
-                 'CruiseIndicator': 'CruiseLimitIndicator',
-                 'CruiseUnavailDisplay': 'CruiseLimitIndicator'}
 
     def __init__(self, control_board_serial_port, mock_enable=False):
         """
@@ -54,24 +43,14 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.init_speed = 0
         self.end_speed = 0
         self.current_speed = 0
-        self.threads = []
-        self.longest_thread = None
-        self.longest_duration = 0
-        self.speed_dict = {'Speed': None}
-        self.rpm_dict = {'RPM': None,
-                         'RPMValid': None,
-                         'LimitControlStatus': None,
-                         'CruiseControlStatus': None,
-                         'LimitCruiseSpeed': None,
-                         'EngineRunningStatus': None}
-        self.cruise_limit_dict = {'LimitIndicator': None,
-                                  'LimitUnavailDisplay': None,
-                                  'CruiseIndicator': None,
-                                  'CruiseUnavailDisplay': None}
-        self.msg_dict = {'Speed': self.speed_dict,
-                         'RPM': self.rpm_dict,
-                         'CruiseLimitIndicator': self.cruise_limit_dict}
-        self.msg = {}
+        self.speed_p = SpeedP()
+        self.engine_p = CoolantTemperatureP()
+        self.tire_p = TireP()
+        self.hud_set_p = HudSetP()
+        self.fuel_p = FuelP()
+        self.ldw_p = LdwP()
+        self.navigation_p = NavigationP()
+        self.p_set = self.control_board_serial_port
 
     def set_up(self):
         self.interval = 0
@@ -79,10 +58,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.init_speed = 0
         self.end_speed = 0
         self.current_speed = 0
-        self.threads = []
-        self.longest_thread = None
-        self.longest_duration = 0
-        self.msg = {}
 
     # def tear_down(self):
 
@@ -93,12 +68,15 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :param value: test result dictionary value
         :return: None
         """
-        # self.msg[self.field_map[key]] = self.msg_dict[self.field_map[key]]
-        # self.msg[self.field_map[key]][key] = value
 
         if key == 'Speed':
             self.init_speed = int(value)
             self.end_speed = int(value)
+            #if self.nav_script is not None:
+            #    self.nav_script.set_car_speed(int(value))
+            self.speed_p.set_speed(int(value))
+            self.p_set.set(self.p_set.var_speed,
+                           self.speed_p.get_data())
 
     def send(self, value):
         """
@@ -140,7 +118,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_signal_interval(self, interval):
         """
         set signal interval for control board
-        :param interval: control board signal period in milli-second
+        :param interval: control board signal period in second
         :return: None
         """
         logging.debug("set_signal_interval:" + str(interval))
@@ -149,11 +127,12 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_signal_duration(self, duration):
         """
         Set signal duration
-        :param duration: control board signal duration in milli-second
+        :param duration: control board signal duration in second
         :return: None
         """
         logging.debug("set_signal_duration:" + str(duration))
         self.duration = int(duration)
+        self.p_set.set_duration(duration)
 
     def set_initial_speed(self, speed):
         """
@@ -163,8 +142,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
         logging.debug("set_initial_speed:" + str(speed))
         self.init_speed = int(speed)
-        self.msg[self.field_map['Speed']] = self.msg_dict[self.field_map['Speed']]
-        self.msg[self.field_map['Speed']]['Speed'] = self.init_speed
+        self.p_set.set_initial_speed(self.init_speed)
 
     def set_end_speed(self, speed):
         """
@@ -174,6 +152,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
         logging.debug("set_end_speed:" + str(speed))
         self.end_speed = int(speed)
+        self.p_set.set_end_speed(self.end_speed)
 
     def start_generate_signal(self):
         """
@@ -181,41 +160,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("start_generate_signal")
-
-        for key in self.msg:
-            logging.debug("msg key:" + key)
-            try:
-                self.interval = self.cycle_dict[key]
-            except KeyError:
-                logging.error("cycle_dict Key:" + key + " Not found")
-            else:
-                logging.debug("cycle_dict key:" + key + " value:" + str(self.interval))
-                if key == 'Speed':
-                    t = CallBackTimer(self.interval, self.duration, self.send_speed)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-                elif key == 'RPM':
-                    t = CallBackTimer(self.interval, self.duration, self.send_rpm_cruise_limit)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-                elif key == 'CruiseLimitIndicator':
-                    t = CallBackTimer(self.interval, self.duration, self.send_cruise_limit_indicator)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-
-        # wait for all timer threads end
-        self.longest_thread.join()
-        # for t in self.threads:
-        #    t.join()
+        self.control_board_serial_port.start_send()
 
     def stop_generate_signal(self):
         """
@@ -223,9 +168,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("stop_generate_signal")
-        # wait for all timer threads end
-        for t in self.threads:
-            t.stop()
+
+        self.control_board_serial_port.stop_send()
 
     def send_speed(self, eclipse_time):
         logging.debug("eclipse_time:" + str(eclipse_time))
@@ -235,7 +179,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.current_speed = int(self.init_speed + (self.end_speed -
                                                     self.init_speed) * eclipse_time / self.duration)
 
-        self.msg[self.field_map['Speed']]['Speed'] = self.current_speed
         logging.debug("current_speed:" + str(self.current_speed))
         self.speed_p.set_speed(int(self.current_speed))
         send_status = self.control_board_serial_port.send_data(int(self.speed_p.get_msg_id(), 16),
@@ -246,19 +189,3 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             logging.debug("请生成数据")
         else:
             logging.error("发送失败")
-
-    def send_rpm_cruise_limit(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("RPM:" + str(self.rpm_dict['RPM']))
-        logging.debug("RPMValid:" + str(self.rpm_dict['RPMValid']))
-        logging.debug("LimitControlStatus:" + str(self.rpm_dict['LimitControlStatus']))
-        logging.debug("CruiseControlStatus:" + str(self.rpm_dict['CruiseControlStatus']))
-        logging.debug("LimitCruiseSpeed:" + str(self.rpm_dict['LimitCruiseSpeed']))
-        logging.debug("EngineRunningStatus:" + str(self.rpm_dict['EngineRunningStatus']))
-
-    def send_cruise_limit_indicator(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("LimitIndicator:" + str(self.cruise_limit_dict['LimitIndicator']))
-        logging.debug("LimitUnavailDisplay:" + str(self.cruise_limit_dict['LimitUnavailDisplay']))
-        logging.debug("CruiseIndicator:" + str(self.cruise_limit_dict['CruiseIndicator']))
-        logging.debug("CruiseUnavailDisplay:" + str(self.cruise_limit_dict['CruiseUnavailDisplay']))

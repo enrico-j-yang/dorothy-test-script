@@ -8,6 +8,7 @@ import logging
 import serial
 
 
+# noinspection PyPep8Naming,PyPep8Naming
 class MockSerial:
     """
     MockSerial is mock serial class
@@ -92,6 +93,7 @@ class MockSerial:
         self.readline_data = (readline_data + '\r\n').encode("utf-8")
 
 
+# noinspection PyPep8Naming,PyPep8Naming
 class TestSerial:
     """
     TestSerial is test serial class
