@@ -10,6 +10,7 @@ class PackageSet(object):
     var_speed = "speed"
     var_limit_speed = "limit_speed"
     var_tire = "tire"
+    var_indicator = "limit_indicator"
 
     schedule = sched.scheduler(time.time, time.sleep)
 
@@ -27,7 +28,8 @@ class PackageSet(object):
         var_ldw: [0x360, default_data, cycle_time[1]],
         var_speed: [0x25F, default_data, cycle_time[1]],
         var_limit_speed: [0x118, default_data, cycle_time[0]],
-        var_tire: [0x269, default_data, cycle_time[2]]
+        var_tire: [0x269, default_data, cycle_time[2]],
+        var_indicator: [0x214, default_data, cycle_time[2]]
     }
 
     send_one_msg_id = 0  # 报文标识符源数据

@@ -34,6 +34,8 @@ class DorothyPackageSet(PackageSet):
         self.hud_set_p = HudSetP()
         self.fuel_p = FuelP()
         self.ldw_p = LdwP()
+        self.limit_p = LimitSpeedP()
+        self.indicator_p = IndicatorP()
         self.navigation_p = NavigationP()
 
     def set_duration(self, duration):
@@ -114,16 +116,16 @@ class DorothyPackageSet(PackageSet):
             msg_data = self.package_list.get(val)[1]
             logging.debug("inc" + str(inc) + "-" + val + "-msg_id" + str(msg_id) + "-msg_data" + str(msg_data))
             with self.lock:
-                # send_status = self.can_serial.send_data(msg_id, msg_data)
+                send_status = self.can_serial.send_data(msg_id, msg_data)
                 logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
-                '''
+
                 if send_status == 1:
                     logging.debug("发送成功")
                 elif send_status == -1:
                     logging.debug("请生成数据")
                 else:
                     logging.error("发送失败")
-                '''
+
 
     def set_initial_speed(self, speed):
         """

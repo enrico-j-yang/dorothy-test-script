@@ -50,6 +50,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.fuel_p = FuelP()
         self.ldw_p = LdwP()
         self.navigation_p = NavigationP()
+        self.limit_p = LimitSpeedP()
+        self.indicator_p = IndicatorP()
         self.p_set = self.control_board_serial_port
 
     def set_up(self):
@@ -72,11 +74,54 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         if key == 'Speed':
             self.init_speed = int(value)
             self.end_speed = int(value)
-            #if self.nav_script is not None:
+            # if self.nav_script is not None:
             #    self.nav_script.set_car_speed(int(value))
             self.speed_p.set_speed(int(value))
             self.p_set.set(self.p_set.var_speed,
                            self.speed_p.get_data())
+        elif key == 'RPM':
+            self.limit_p.set_rpm(int(value/4))
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'RPMValid':
+            if not value:
+                self.limit_p.set_rpm_valid(1)
+            else:
+                self.limit_p.set_rpm_valid(0)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'LimitCruiseSpeed':
+            self.limit_p.set_limit_speed(int(value))
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'LimitControlStatus':
+            self.limit_p.set_limit_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'CruiseControlStatus':
+            self.limit_p.set_cruise_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'EngineRunningStatus':
+            self.limit_p.set_engine_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'LimitIndicator':
+            self.indicator_p.set_cruise_indicate(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'LimitUnavailDisplay':
+            self.indicator_p.set_cruise_unavail_display(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'CruiseIndicator':
+            self.indicator_p.set_limit_indicate(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'CruiseUnavailDisplay':
+            self.indicator_p.set_limit_unavail_display(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
 
     def send(self, value):
         """

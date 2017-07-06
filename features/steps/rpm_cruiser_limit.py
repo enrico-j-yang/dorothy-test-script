@@ -43,7 +43,7 @@ def step_impl(context, status):
     elif status == u'激活':
         context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Active')
     elif status == u'巡航超车':
-        context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Reserved')
+        context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Override')
     else:
         logging.error("error status:" + status)
         raise Exception

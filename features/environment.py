@@ -5,7 +5,7 @@ environment.py is pre-process and post-process for all step implementation files
 """
 import platform
 
-from can_sim.can_serial import *
+from dorothy.dorothy_can_serial import *
 from can_sim.nav_script import *
 from common.test_input import TestInput
 from common.test_serial import TestSerial
@@ -34,7 +34,7 @@ def before_all(context):
     """
 
     context.log_control = LogControl
-    context.can_serial = SerialPort(context.log_control)
+    context.can_serial = SerialPort(context.log_control, mock_enable=True)
     context.p_set = DorothyPackageSet(context.can_serial)
     context.nav_script = NavScript(context.can_serial)
     context.nav_script.set_log_frame(context.log_control)
