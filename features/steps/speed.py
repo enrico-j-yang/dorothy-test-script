@@ -76,4 +76,4 @@ def step_impl(context, speed):
 @when(u'CANBUS上信号断开{duration}秒')
 def step_impl(context, duration):
     context.dorothyTestInput.sysExtEvt.stop_generate_signal()
-    sleep(int(duration))
+    sleep(float(duration))
