@@ -1,5 +1,7 @@
 # -- coding: utf-8 --
-import time, os, sched, threading
+import sched
+import threading
+import time
 
 
 class PackageSet(object):
@@ -91,7 +93,7 @@ class PackageSet(object):
                     target_i = 0
                     for id_i in range(0, len(id_li)):
                         # 比较两个id的大小
-                        if (val[0] > self.package_list.get(id_li[id_i])[0]):
+                        if val[0] > self.package_list.get(id_li[id_i])[0]:
                             target_i += 1
                     id_li.insert(target_i, key)
 
@@ -125,9 +127,6 @@ class PackageSet(object):
             msg_id = self.package_list.get(val)[0]
             msg_data = self.package_list.get(val)[1]
             self.can_serial.send_data(msg_id, msg_data)
-        current_time = time.strftime(
-            '%H:%M:%S', time.localtime(time.time()))
-        # print(current_time)
         self.schedule.enter(inc, 0,
                             self.send_callback, (inc, time_li))
 

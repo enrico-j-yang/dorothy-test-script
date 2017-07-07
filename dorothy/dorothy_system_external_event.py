@@ -40,9 +40,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.control_board_serial_port = control_board_serial_port
         self.interval = 0
         self.duration = 0
-        self.init_speed = 0
-        self.end_speed = 0
         self.current_speed = 0
+        self.current_temp = 0
         self.speed_p = SpeedP()
         self.engine_p = CoolantTemperatureP()
         self.tire_p = TireP()
@@ -57,9 +56,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_up(self):
         self.interval = 0
         self.duration = 0
-        self.init_speed = 0
-        self.end_speed = 0
-        self.current_speed = 0
 
     # def tear_down(self):
 
@@ -72,15 +68,15 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
 
         if key == 'Speed':
-            self.init_speed = int(value)
-            self.end_speed = int(value)
+            self.p_set.set_initial_speed(int(value))
+            self.p_set.set_end_speed(int(value))
             # if self.nav_script is not None:
             #    self.nav_script.set_car_speed(int(value))
             self.speed_p.set_speed(int(value))
             self.p_set.set(self.p_set.var_speed,
                            self.speed_p.get_data())
         elif key == 'RPM':
-            self.limit_p.set_rpm(int(value/4))
+            self.limit_p.set_rpm(int(value))
             self.p_set.set(self.p_set.var_limit_speed,
                            self.limit_p.get_data())
         elif key == 'RPMValid':
@@ -122,6 +118,19 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.indicator_p.set_limit_unavail_display(value)
             self.p_set.set(self.p_set.var_indicator,
                            self.indicator_p.get_data())
+        elif key == 'ECT':
+            self.p_set.set_initial_temp(int(value))
+            self.p_set.set_end_temp(int(value))
+            self.engine_p.set_temperature(int(value))
+            self.p_set.set(self.p_set.var_coolant_temp,
+                           self.engine_p.get_data())
+        elif key == 'ECTValid':
+            if not value:
+                self.engine_p.set_status(1)
+            else:
+                self.engine_p.set_status(0)
+            self.p_set.set(self.p_set.var_coolant_temp,
+                           self.engine_p.get_data())
 
     def send(self, value):
         """
@@ -199,6 +208,26 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.end_speed = int(speed)
         self.p_set.set_end_speed(self.end_speed)
 
+    def set_initial_temp(self, temp):
+        """
+        set signal period for control board
+        :param temp: temperature
+        :return: None
+        """
+        logging.debug("set_initial_temp:" + str(temp))
+        self.init_temp = int(temp)
+        self.p_set.set_initial_temp(self.init_temp)
+
+    def set_end_temp(self, temp):
+        """
+        set signal period for control board
+        :param temp: temperature
+        :return: None
+        """
+        logging.debug("set_end_temp:" + str(temp))
+        self.end_temp = int(temp)
+        self.p_set.set_end_temp(self.end_temp)
+
     def start_generate_signal(self):
         """
         start generate signal to control board
@@ -215,22 +244,3 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         logging.debug("stop_generate_signal")
 
         self.control_board_serial_port.stop_send()
-
-    def send_speed(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("init_speed:" + str(self.init_speed))
-        logging.debug("end_speed:" + str(self.end_speed))
-        logging.debug("duration:" + str(self.duration))
-        self.current_speed = int(self.init_speed + (self.end_speed -
-                                                    self.init_speed) * eclipse_time / self.duration)
-
-        logging.debug("current_speed:" + str(self.current_speed))
-        self.speed_p.set_speed(int(self.current_speed))
-        send_status = self.control_board_serial_port.send_data(int(self.speed_p.get_msg_id(), 16),
-                                                               self.speed_p.get_data()[1])
-        if send_status == 1:
-            logging.debug("发送成功")
-        elif send_status == -1:
-            logging.debug("请生成数据")
-        else:
-            logging.error("发送失败")

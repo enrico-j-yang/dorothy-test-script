@@ -36,25 +36,27 @@ class DorothyActualResult(ActualResult):
         :param key:  actual result dictionary key
         :return: actual result dictionary value
         """
-        # read test command to serial port
-        out_bytes = ''
-        # let's wait one second before reading output (let's give device time to answer)
-        # sleep(0.1)
-        out_buffer_bytes = self.result_serial_port.inWaiting()
-        while out_buffer_bytes > 0:
-            out_bytes = self.result_serial_port.readline()
-            if out_bytes != '':
-                logging.info(out_bytes)
+        if not self.mock_enable:
+
+            # read test command to serial port
+            out_bytes = ''
+            # let's wait one second before reading output (let's give device time to answer)
+            # sleep(0.1)
             out_buffer_bytes = self.result_serial_port.inWaiting()
-        try:
-            return_key = out_bytes[0:out_bytes.index('=')]
-        except ValueError:
-            logging.error("return_key error:" + out_bytes)
-        else:
-            if key == return_key:
-                value = out_bytes[out_bytes.index('=') + 1:len(out_bytes)]
-                self.dist[key] = value
+            while out_buffer_bytes > 0:
+                out_bytes = self.result_serial_port.readline()
+                if out_bytes != '':
+                    logging.info(out_bytes)
+                out_buffer_bytes = self.result_serial_port.inWaiting()
+            try:
+                return_key = out_bytes[0:out_bytes.index('=')]
+            except ValueError:
+                logging.error("return_key error:" + out_bytes)
             else:
-                logging.error('return key error:' + return_key)
+                if key == return_key:
+                    value = out_bytes[out_bytes.index('=') + 1:len(out_bytes)]
+                    self.dist[key] = value
+                else:
+                    logging.error('return key error:' + return_key)
 
         return self.dist[key]

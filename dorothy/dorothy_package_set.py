@@ -20,6 +20,8 @@ class DorothyPackageSet(PackageSet):
     init_speed = 0
     end_speed = 0
     start_time = 0
+    init_temp = 0
+    end_temp = 0
 
     """docstring for PackageSet"""
 
@@ -95,22 +97,29 @@ class DorothyPackageSet(PackageSet):
 
         logging.debug("eclipse_time:" + str(eclipse_time))
 
-        try:
-            time_li.index("speed")
-        except ValueError:
-            pass
-        else:
-            logging.debug("init_speed:" + str(self.init_speed))
-            logging.debug("end_speed:" + str(self.end_speed))
-            logging.debug("duration:" + str(self.duration))
-
         for val in time_li:
             if val == "speed":
+                logging.debug("init_speed:" + str(self.init_speed))
+                logging.debug("end_speed:" + str(self.end_speed))
+                logging.debug("duration:" + str(self.duration))
                 current_speed = int(self.init_speed + (self.end_speed -
                                                        self.init_speed) * eclipse_time / self.duration)
 
                 logging.debug("current_speed:" + str(current_speed))
                 self.speed_p.set_speed(int(current_speed))
+                self.set(self.var_speed,
+                         self.speed_p.get_data())
+            elif val == "coolant_temp":
+                logging.debug("init_temp:" + str(self.init_temp))
+                logging.debug("end_temp:" + str(self.end_temp))
+                logging.debug("duration:" + str(self.duration))
+                current_temp = int(self.init_temp + (self.end_temp -
+                                                     self.init_temp) * eclipse_time / self.duration)
+
+                logging.debug("current_temp:" + str(current_temp))
+                self.engine_p.set_temperature(int(current_temp))
+                self.set(self.var_coolant_temp,
+                         self.engine_p.get_data())
 
             msg_id = self.package_list.get(val)[0]
             msg_data = self.package_list.get(val)[1]
@@ -125,7 +134,6 @@ class DorothyPackageSet(PackageSet):
                     logging.debug("请生成数据")
                 else:
                     logging.error("发送失败")
-
 
     def set_initial_speed(self, speed):
         """
@@ -144,3 +152,21 @@ class DorothyPackageSet(PackageSet):
         """
         logging.debug("set_end_speed:" + str(speed))
         self.end_speed = int(speed)
+
+    def set_initial_temp(self, temp):
+        """
+        set signal period for control board
+        :param temp: temperature
+        :return: None
+        """
+        logging.debug("set_initial_temp:" + str(temp))
+        self.init_temp = int(temp)
+
+    def set_end_temp(self, temp):
+        """
+        set signal period for control board
+        :param temp: temperature
+        :return: None
+        """
+        logging.debug("set_end_temp:" + str(temp))
+        self.end_temp = int(temp)

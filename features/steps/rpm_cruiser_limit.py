@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-speed.py is step implementation file for speed.feature
+rpm_cruise_limit.py is step implementation file for rpm_cruise_limit.feature
 
 """
 import logging
