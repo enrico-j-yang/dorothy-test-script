@@ -44,7 +44,7 @@ class LimitSpeedP(Processer):
         super().__init__(0x118)
 
     def set_rpm(self, rpm):
-        self.set_data_auto(1, rpm / 4)
+        self.set_data_auto(1, int(rpm / 4))
 
     def set_rpm_valid(self, valid):
         self.set_data_bit_auto(2, 0, valid)
