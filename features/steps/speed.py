@@ -17,7 +17,7 @@ def step_impl(context, speed):
 
 @when(u'CANBUS上信号持续{duration}秒')
 def step_impl(context, duration):
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration) * 1000)
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
@@ -33,9 +33,9 @@ def step_impl(context, speed):
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h增加到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyTestInput.sysExtEvt.set_initial_speed(int(init_speed))
-    context.dorothyTestInput.sysExtEvt.set_end_speed(int(end_speed))
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration) * 1000)
+    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', int(init_speed))
+    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', int(end_speed))
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
@@ -51,9 +51,9 @@ def step_impl(context, duration, init_speed, end_speed):
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h下降到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyTestInput.sysExtEvt.set_initial_speed(int(init_speed))
-    context.dorothyTestInput.sysExtEvt.set_end_speed(int(end_speed))
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration) * 1000)
+    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', int(init_speed))
+    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', int(end_speed))
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
@@ -76,4 +76,4 @@ def step_impl(context, speed):
 @when(u'CANBUS上信号断开{duration}秒')
 def step_impl(context, duration):
     context.dorothyTestInput.sysExtEvt.stop_generate_signal()
-    sleep(int(duration))
+    sleep(float(duration))

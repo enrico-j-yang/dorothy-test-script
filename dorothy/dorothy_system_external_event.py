@@ -7,7 +7,14 @@ It defines system external event class and methods
 import logging
 
 from common.system_external_event import SystemExternalEvent
-from common.test_timer import CallBackTimer
+
+from can_sim.speed_p import *
+from can_sim.engine_p import *
+from can_sim.tire_p import *
+from can_sim.hud_set_p import *
+from can_sim.fuel_p import *
+from can_sim.ldw_p import *
+from can_sim.navigation_p import *
 
 
 class UnknownResultError(Exception):
@@ -22,20 +29,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     :static variable control_board_serial_port: control board serial port handler
     """
     control_board_serial_port = None
-    cycle_dict = {'Speed': 50,
-                  'RPM': 10,
-                  'CruiseLimitIndicator': 100}
-    field_map = {'Speed': 'Speed',
-                 'RPM': 'RPM',
-                 'RPMValid': 'RPM',
-                 'LimitControlStatus': 'RPM',
-                 'CruiseControlStatus': 'RPM',
-                 'LimitCruiseSpeed': 'RPM',
-                 'EngineRunningStatus': 'RPM',
-                 'LimitIndicator': 'CruiseLimitIndicator',
-                 'LimitUnavailDisplay': 'CruiseLimitIndicator',
-                 'CruiseIndicator': 'CruiseLimitIndicator',
-                 'CruiseUnavailDisplay': 'CruiseLimitIndicator'}
+    digital_values = {
+
+    }
 
     def __init__(self, control_board_serial_port, mock_enable=False):
         """
@@ -47,38 +43,54 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.control_board_serial_port = control_board_serial_port
         self.interval = 0
         self.duration = 0
-        self.init_speed = 0
-        self.end_speed = 0
         self.current_speed = 0
-        self.threads = []
-        self.longest_thread = None
-        self.longest_duration = 0
-        self.speed_dict = {'Speed': None}
-        self.rpm_dict = {'RPM': None,
-                         'RPMValid': None,
-                         'LimitControlStatus': None,
-                         'CruiseControlStatus': None,
-                         'LimitCruiseSpeed': None,
-                         'EngineRunningStatus': None}
-        self.cruise_limit_dict = {'LimitIndicator': None,
-                                  'LimitUnavailDisplay': None,
-                                  'CruiseIndicator': None,
-                                  'CruiseUnavailDisplay': None}
-        self.msg_dict = {'Speed': self.speed_dict,
-                         'RPM': self.rpm_dict,
-                         'CruiseLimitIndicator': self.cruise_limit_dict}
-        self.msg = {}
+        self.current_temp = 0
+        self.speed_p = SpeedP()
+        self.engine_p = CoolantTemperatureP()
+        self.tire_p = TireP()
+        self.hud_set_p = HudSetP()
+        self.fuel_p = FuelP()
+        self.ldw_p = LdwP()
+        self.navigation_p = NavigationP()
+        self.limit_p = LimitSpeedP()
+        self.indicator_p = IndicatorP()
+        self.p_set = self.control_board_serial_port
 
     def set_up(self):
         self.interval = 0
         self.duration = 0
-        self.init_speed = 0
-        self.end_speed = 0
-        self.current_speed = 0
-        self.threads = []
-        self.longest_thread = None
-        self.longest_duration = 0
-        self.msg = {}
+        self.digital_values = {
+            "Speed": {"Package": "speed",
+                      "Initial Value": 0,
+                      "End Value": 0,
+                      "Process": self.speed_p,
+                      "Process Set Value Method": self.speed_p.set_speed,
+                      "Package List Name": self.p_set.var_speed},
+            "ECT": {"Package": "coolant_temp",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.engine_p,
+                    "Process Set Value Method": self.engine_p.set_temperature,
+                    "Package List Name": self.p_set.var_coolant_temp},
+            "RPM": {"Package": "var_limit_speed",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.limit_p,
+                    "Process Set Value Method": self.limit_p.set_rpm,
+                    "Package List Name": self.p_set.var_limit_speed},
+            "LimitCruiseSpeed": {"Package": "var_limit_speed",
+                                 "Initial Value": 0,
+                                 "End Value": 0,
+                                 "Process": self.limit_p,
+                                 "Process Set Value Method": self.limit_p.set_limit_speed,
+                                 "Package List Name": self.p_set.var_limit_speed},
+            "SurplusFuel": {"Package": "fuel",
+                            "Initial Value": 0,
+                            "End Value": 0,
+                            "Process": self.fuel_p,
+                            "Process Set Value Method": self.fuel_p.set_fuel,
+                            "Package List Name": self.p_set.var_fuel},
+        }
 
     # def tear_down(self):
 
@@ -89,12 +101,89 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :param value: test result dictionary value
         :return: None
         """
-        self.msg[self.field_map[key]] = self.msg_dict[self.field_map[key]]
-        self.msg[self.field_map[key]][key] = value
 
         if key == 'Speed':
-            self.init_speed = int(value)
-            self.end_speed = int(value)
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            # if self.nav_script is not None:
+            #    self.nav_script.set_car_speed(int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'RPM':
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'RPMValid':
+            if not value:
+                self.limit_p.set_rpm_valid(1)
+            else:
+                self.limit_p.set_rpm_valid(0)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'LimitCruiseSpeed':
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'LimitControlStatus':
+            self.limit_p.set_limit_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'CruiseControlStatus':
+            self.limit_p.set_cruise_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'EngineRunningStatus':
+            self.limit_p.set_engine_status(value)
+            self.p_set.set(self.p_set.var_limit_speed,
+                           self.limit_p.get_data())
+        elif key == 'LimitIndicator':
+            self.indicator_p.set_cruise_indicate(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'LimitUnavailDisplay':
+            self.indicator_p.set_cruise_unavail_display(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'CruiseIndicator':
+            self.indicator_p.set_limit_indicate(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'CruiseUnavailDisplay':
+            self.indicator_p.set_limit_unavail_display(value)
+            self.p_set.set(self.p_set.var_indicator,
+                           self.indicator_p.get_data())
+        elif key == 'ECT':
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'ECTValid':
+            if not value:
+                self.engine_p.set_status(1)
+            else:
+                self.engine_p.set_status(0)
+            self.p_set.set(self.p_set.var_coolant_temp,
+                           self.engine_p.get_data())
+        elif key == 'SurplusFuel':
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'DriverSeatBeltLamp':
+            self.fuel_p.set_driver_seat_belt_warning(value)
+            self.p_set.set(self.p_set.var_fuel,
+                           self.fuel_p.get_data())
+        elif key == 'PassengerSeatBeltLamp':
+            self.fuel_p.set_passenger_seat_belt_warning(value)
+            self.p_set.set(self.p_set.var_fuel,
+                           self.fuel_p.get_data())
 
     def send(self, value):
         """
@@ -136,7 +225,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_signal_interval(self, interval):
         """
         set signal interval for control board
-        :param interval: control board signal period in milli-second
+        :param interval: control board signal period in second
         :return: None
         """
         logging.debug("set_signal_interval:" + str(interval))
@@ -145,31 +234,32 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_signal_duration(self, duration):
         """
         Set signal duration
-        :param duration: control board signal duration in milli-second
+        :param duration: control board signal duration in second
         :return: None
         """
         logging.debug("set_signal_duration:" + str(duration))
         self.duration = int(duration)
+        self.p_set.set_duration(duration)
 
-    def set_initial_speed(self, speed):
+    def set_initial_value(self, key, value):
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set initial value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_initial_speed:" + str(speed))
-        self.init_speed = int(speed)
-        self.msg[self.field_map['Speed']] = self.msg_dict[self.field_map['Speed']]
-        self.msg[self.field_map['Speed']]['Speed'] = self.init_speed
+        logging.debug("set_initial_value:" + str(value))
+        self.p_set.set_initial_value(key, value)
 
-    def set_end_speed(self, speed):
+    def set_end_value(self, key, value):
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set end value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_end_speed:" + str(speed))
-        self.end_speed = int(speed)
+        logging.debug("set_end_value:" + str(value))
+        self.p_set.set_end_value(key, value)
 
     def start_generate_signal(self):
         """
@@ -177,41 +267,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("start_generate_signal")
-
-        for key in self.msg:
-            logging.debug("msg key:" + key)
-            try:
-                self.interval = self.cycle_dict[key]
-            except KeyError:
-                logging.error("cycle_dict Key:" + key + " Not found")
-            else:
-                logging.debug("cycle_dict key:" + key + " value:" + str(self.interval))
-                if key == 'Speed':
-                    t = CallBackTimer(self.interval, self.duration, self.send_speed)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-                elif key == 'RPM':
-                    t = CallBackTimer(self.interval, self.duration, self.send_rpm_cruise_limit)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-                elif key == 'CruiseLimitIndicator':
-                    t = CallBackTimer(self.interval, self.duration, self.send_cruise_limit_indicator)
-                    self.threads.append(t)
-                    if self.duration >= self.longest_duration:
-                        self.longest_thread = t
-                        self.longest_duration = self.duration
-                    t.start()
-
-        # wait for all timer threads end
-        self.longest_thread.join()
-        # for t in self.threads:
-        #    t.join()
+        self.control_board_serial_port.start_send()
 
     def stop_generate_signal(self):
         """
@@ -219,33 +275,5 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("stop_generate_signal")
-        # wait for all timer threads end
-        for t in self.threads:
-            t.stop()
 
-    def send_speed(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("init_speed:" + str(self.init_speed))
-        logging.debug("end_speed:" + str(self.end_speed))
-        logging.debug("duration:" + str(self.duration))
-        self.current_speed = self.init_speed + (self.end_speed -
-                                                self.init_speed) * eclipse_time / self.duration
-
-        self.msg[self.field_map['Speed']]['Speed'] = self.current_speed
-        logging.debug("current_speed:" + str(self.current_speed))
-
-    def send_rpm_cruise_limit(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("RPM:" + str(self.rpm_dict['RPM']))
-        logging.debug("RPMValid:" + str(self.rpm_dict['RPMValid']))
-        logging.debug("LimitControlStatus:" + str(self.rpm_dict['LimitControlStatus']))
-        logging.debug("CruiseControlStatus:" + str(self.rpm_dict['CruiseControlStatus']))
-        logging.debug("LimitCruiseSpeed:" + str(self.rpm_dict['LimitCruiseSpeed']))
-        logging.debug("EngineRunningStatus:" + str(self.rpm_dict['EngineRunningStatus']))
-
-    def send_cruise_limit_indicator(self, eclipse_time):
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        logging.debug("LimitIndicator:" + str(self.cruise_limit_dict['LimitIndicator']))
-        logging.debug("LimitUnavailDisplay:" + str(self.cruise_limit_dict['LimitUnavailDisplay']))
-        logging.debug("CruiseIndicator:" + str(self.cruise_limit_dict['CruiseIndicator']))
-        logging.debug("CruiseUnavailDisplay:" + str(self.cruise_limit_dict['CruiseUnavailDisplay']))
+        self.control_board_serial_port.stop_send()

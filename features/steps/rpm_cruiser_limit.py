@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-speed.py is step implementation file for speed.feature
+rpm_cruise_limit.py is step implementation file for rpm_cruise_limit.feature
 
 """
 import logging
@@ -43,7 +43,7 @@ def step_impl(context, status):
     elif status == u'激活':
         context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Active')
     elif status == u'巡航超车':
-        context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Reserved')
+        context.dorothyTestInput.sysExtEvt.set_value('CruiseControlStatus', 'Override')
     else:
         logging.error("error status:" + status)
         raise Exception
