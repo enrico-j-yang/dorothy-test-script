@@ -29,6 +29,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     :static variable control_board_serial_port: control board serial port handler
     """
     control_board_serial_port = None
+    digital_values = {
+
+    }
 
     def __init__(self, control_board_serial_port, mock_enable=False):
         """
@@ -56,6 +59,38 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_up(self):
         self.interval = 0
         self.duration = 0
+        self.digital_values = {
+            "Speed": {"Package": "speed",
+                      "Initial Value": 0,
+                      "End Value": 0,
+                      "Process": self.speed_p,
+                      "Process Set Value Method": self.speed_p.set_speed,
+                      "Package List Name": self.p_set.var_speed},
+            "ECT": {"Package": "coolant_temp",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.engine_p,
+                    "Process Set Value Method": self.engine_p.set_temperature,
+                    "Package List Name": self.p_set.var_coolant_temp},
+            "RPM": {"Package": "var_limit_speed",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.limit_p,
+                    "Process Set Value Method": self.limit_p.set_rpm,
+                    "Package List Name": self.p_set.var_limit_speed},
+            "LimitCruiseSpeed": {"Package": "var_limit_speed",
+                                 "Initial Value": 0,
+                                 "End Value": 0,
+                                 "Process": self.limit_p,
+                                 "Process Set Value Method": self.limit_p.set_limit_speed,
+                                 "Package List Name": self.p_set.var_limit_speed},
+            "SurplusFuel": {"Package": "fuel",
+                            "Initial Value": 0,
+                            "End Value": 0,
+                            "Process": self.fuel_p,
+                            "Process Set Value Method": self.fuel_p.set_fuel,
+                            "Package List Name": self.p_set.var_fuel},
+        }
 
     # def tear_down(self):
 
@@ -68,17 +103,19 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
 
         if key == 'Speed':
-            self.p_set.set_initial_speed(int(value))
-            self.p_set.set_end_speed(int(value))
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
             # if self.nav_script is not None:
             #    self.nav_script.set_car_speed(int(value))
-            self.speed_p.set_speed(int(value))
-            self.p_set.set(self.p_set.var_speed,
-                           self.speed_p.get_data())
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
         elif key == 'RPM':
-            self.limit_p.set_rpm(int(value))
-            self.p_set.set(self.p_set.var_limit_speed,
-                           self.limit_p.get_data())
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
         elif key == 'RPMValid':
             if not value:
                 self.limit_p.set_rpm_valid(1)
@@ -87,9 +124,11 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set(self.p_set.var_limit_speed,
                            self.limit_p.get_data())
         elif key == 'LimitCruiseSpeed':
-            self.limit_p.set_limit_speed(int(value))
-            self.p_set.set(self.p_set.var_limit_speed,
-                           self.limit_p.get_data())
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
         elif key == 'LimitControlStatus':
             self.limit_p.set_limit_status(value)
             self.p_set.set(self.p_set.var_limit_speed,
@@ -119,11 +158,11 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set(self.p_set.var_indicator,
                            self.indicator_p.get_data())
         elif key == 'ECT':
-            self.p_set.set_initial_temp(int(value))
-            self.p_set.set_end_temp(int(value))
-            self.engine_p.set_temperature(int(value))
-            self.p_set.set(self.p_set.var_coolant_temp,
-                           self.engine_p.get_data())
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
         elif key == 'ECTValid':
             if not value:
                 self.engine_p.set_status(1)
@@ -131,6 +170,20 @@ class DorothySystemExternalEvent(SystemExternalEvent):
                 self.engine_p.set_status(0)
             self.p_set.set(self.p_set.var_coolant_temp,
                            self.engine_p.get_data())
+        elif key == 'SurplusFuel':
+            self.p_set.set_initial_value(key, int(value))
+            self.p_set.set_end_value(key, int(value))
+            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set(self.digital_values.get(key)["Package List Name"],
+                           self.digital_values.get(key)["Process"].get_data())
+        elif key == 'DriverSeatBeltLamp':
+            self.fuel_p.set_driver_seat_belt_warning(value)
+            self.p_set.set(self.p_set.var_fuel,
+                           self.fuel_p.get_data())
+        elif key == 'PassengerSeatBeltLamp':
+            self.fuel_p.set_passenger_seat_belt_warning(value)
+            self.p_set.set(self.p_set.var_fuel,
+                           self.fuel_p.get_data())
 
     def send(self, value):
         """
@@ -188,45 +241,25 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.duration = int(duration)
         self.p_set.set_duration(duration)
 
-    def set_initial_speed(self, speed):
+    def set_initial_value(self, key, value):
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set initial value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_initial_speed:" + str(speed))
-        self.init_speed = int(speed)
-        self.p_set.set_initial_speed(self.init_speed)
+        logging.debug("set_initial_value:" + str(value))
+        self.p_set.set_initial_value(key, value)
 
-    def set_end_speed(self, speed):
+    def set_end_value(self, key, value):
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set end value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_end_speed:" + str(speed))
-        self.end_speed = int(speed)
-        self.p_set.set_end_speed(self.end_speed)
-
-    def set_initial_temp(self, temp):
-        """
-        set signal period for control board
-        :param temp: temperature
-        :return: None
-        """
-        logging.debug("set_initial_temp:" + str(temp))
-        self.init_temp = int(temp)
-        self.p_set.set_initial_temp(self.init_temp)
-
-    def set_end_temp(self, temp):
-        """
-        set signal period for control board
-        :param temp: temperature
-        :return: None
-        """
-        logging.debug("set_end_temp:" + str(temp))
-        self.end_temp = int(temp)
-        self.p_set.set_end_temp(self.end_temp)
+        logging.debug("set_end_value:" + str(value))
+        self.p_set.set_end_value(key, value)
 
     def start_generate_signal(self):
         """

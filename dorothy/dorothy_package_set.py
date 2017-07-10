@@ -17,11 +17,8 @@ class DorothyPackageSet(PackageSet):
     cb = None
     duration = 0
     stop_flag = None
-    init_speed = 0
-    end_speed = 0
     start_time = 0
-    init_temp = 0
-    end_temp = 0
+    digital_values = {}
 
     """docstring for PackageSet"""
 
@@ -39,6 +36,38 @@ class DorothyPackageSet(PackageSet):
         self.limit_p = LimitSpeedP()
         self.indicator_p = IndicatorP()
         self.navigation_p = NavigationP()
+        self.digital_values = {
+            "Speed": {"Package": "speed",
+                      "Initial Value": 0,
+                      "End Value": 0,
+                      "Process": self.speed_p,
+                      "Process Set Value Method": self.speed_p.set_speed,
+                      "Package List Name": self.var_speed},
+            "ECT": {"Package": "coolant_temp",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.engine_p,
+                    "Process Set Value Method": self.engine_p.set_temperature,
+                    "Package List Name": self.var_coolant_temp},
+            "RPM": {"Package": "limit_speed",
+                    "Initial Value": 0,
+                    "End Value": 0,
+                    "Process": self.limit_p,
+                    "Process Set Value Method": self.limit_p.set_rpm,
+                    "Package List Name": self.var_limit_speed},
+            "LimitCruiseSpeed": {"Package": "limit_speed",
+                                 "Initial Value": 0,
+                                 "End Value": 0,
+                                 "Process": self.limit_p,
+                                 "Process Set Value Method": self.limit_p.set_limit_speed,
+                                 "Package List Name": self.var_limit_speed},
+            "SurplusFuel": {"Package": "fuel",
+                            "Initial Value": 0,
+                            "End Value": 0,
+                            "Process": self.fuel_p,
+                            "Process Set Value Method": self.fuel_p.set_fuel,
+                            "Package List Name": self.var_fuel},
+        }
 
     def set_duration(self, duration):
         self.duration = duration
@@ -98,75 +127,57 @@ class DorothyPackageSet(PackageSet):
         logging.debug("eclipse_time:" + str(eclipse_time))
 
         for val in time_li:
-            if val == "speed":
-                logging.debug("init_speed:" + str(self.init_speed))
-                logging.debug("end_speed:" + str(self.end_speed))
-                logging.debug("duration:" + str(self.duration))
-                current_speed = int(self.init_speed + (self.end_speed -
-                                                       self.init_speed) * eclipse_time / self.duration)
+            for key, value in self.digital_values.items():
+                if value["Package"] == val:
+                    init_value = value["Initial Value"]
+                    end_value = value["End Value"]
 
-                logging.debug("current_speed:" + str(current_speed))
-                self.speed_p.set_speed(int(current_speed))
-                self.set(self.var_speed,
-                         self.speed_p.get_data())
-            elif val == "coolant_temp":
-                logging.debug("init_temp:" + str(self.init_temp))
-                logging.debug("end_temp:" + str(self.end_temp))
-                logging.debug("duration:" + str(self.duration))
-                current_temp = int(self.init_temp + (self.end_temp -
-                                                     self.init_temp) * eclipse_time / self.duration)
+                    logging.debug("init " + key + ":" + str(init_value))
+                    logging.debug("end " + key + ":" + str(end_value))
+                    logging.debug("duration:" + str(self.duration))
+                    if init_value != end_value:
+                        current_value = int(init_value + (end_value -
+                                                          init_value) * eclipse_time / self.duration)
+                    else:
+                        current_value = init_value
 
-                logging.debug("current_temp:" + str(current_temp))
-                self.engine_p.set_temperature(int(current_temp))
-                self.set(self.var_coolant_temp,
-                         self.engine_p.get_data())
+                    logging.debug("current " + key + ":" + str(current_value))
+                    value["Process Set Value Method"](int(current_value))
+                    self.set(value["Package List Name"],
+                             value["Process"].get_data())
 
             msg_id = self.package_list.get(val)[0]
             msg_data = self.package_list.get(val)[1]
             logging.debug("inc" + str(inc) + "-" + val + "-msg_id" + str(msg_id) + "-msg_data" + str(msg_data))
             with self.lock:
                 send_status = self.can_serial.send_data(msg_id, msg_data)
-                logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+            logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
 
-                if send_status == 1:
-                    logging.debug("发送成功")
-                elif send_status == -1:
-                    logging.debug("请生成数据")
-                else:
-                    logging.error("发送失败")
+            if send_status == 1:
+                logging.debug("发送成功")
+            elif send_status == -1:
+                logging.debug("请生成数据")
+            else:
+                logging.error("发送失败")
 
-    def set_initial_speed(self, speed):
+    def set_initial_value(self, key, value):
+
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set initial value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_initial_speed:" + str(speed))
-        self.init_speed = int(speed)
+        logging.debug("set_initial_value:" + str(value))
+        self.digital_values.get(key)["Initial Value"] = int(value)
 
-    def set_end_speed(self, speed):
+    def set_end_value(self, key, value):
+
         """
-        set signal period for control board
-        :param speed: speed in km/s
+        set end value for key
+        :param key: key
+        :param value: value
         :return: None
         """
-        logging.debug("set_end_speed:" + str(speed))
-        self.end_speed = int(speed)
-
-    def set_initial_temp(self, temp):
-        """
-        set signal period for control board
-        :param temp: temperature
-        :return: None
-        """
-        logging.debug("set_initial_temp:" + str(temp))
-        self.init_temp = int(temp)
-
-    def set_end_temp(self, temp):
-        """
-        set signal period for control board
-        :param temp: temperature
-        :return: None
-        """
-        logging.debug("set_end_temp:" + str(temp))
-        self.end_temp = int(temp)
+        logging.debug("set_end_value:" + str(value))
+        self.digital_values.get(key)["End Value"] = int(value)

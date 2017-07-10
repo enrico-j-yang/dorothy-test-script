@@ -87,6 +87,7 @@ def step_impl(context, duration, init_temp, end_temp):
     context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
+
 @when(u'CANBUS上有引擎冷却剂温度为{invalid_temp}')
 def step_impl(context, invalid_temp):
     context.dorothyTestInput.sysExtEvt.set_value('ECT', int(invalid_temp))
