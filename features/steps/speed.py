@@ -41,12 +41,12 @@ def step_impl(context, duration, init_speed, end_speed):
 
 @then(u'HUD显示速度在{duration}秒内从{init_speed}km/h增加到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyExpRes.set_value('Speed', int(end_speed))
-    context.dorothyActRes.mock_value('Speed', int(end_speed))
-    context.dorothyActRes.get_value('Speed')
-    logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
-    logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
-    assert context.dorothyActRes.dist['Speed'] == context.dorothyExpRes.dist['Speed']
+    context.dorothyExpRes.set_value('speed', int(end_speed))
+    context.dorothyActRes.mock_value('speed', int(end_speed))
+    context.dorothyActRes.get_value('speed')
+    logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['speed']))
+    logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['speed']))
+    assert context.dorothyActRes.dist['Speed'] == context.dorothyExpRes.dist['speed']
 
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h下降到{end_speed}km/h')
