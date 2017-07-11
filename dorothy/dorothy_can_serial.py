@@ -21,7 +21,6 @@ class SerialPort(CanSerialPort):
     send_mock = False
 
     """docstring for SerialPort"""
-
     def __init__(self, log_control, mock_enable=False, send_mock=False):
         super(SerialPort, self).__init__(log_control)
         self.log_control = log_control

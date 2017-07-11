@@ -4,8 +4,8 @@ import copy
 
 
 class NavigationP(Processer):
-
     """时速协议数据封装器"""
+
     def __init__(self):
         super().__init__(0x333)
         # 第0个字节4~7位为0x07表示该信息是导航信息
@@ -15,6 +15,7 @@ class NavigationP(Processer):
     第0个字节0~3位为0表示无状态
     无状态时重置所有字节的数据
     """
+
     def clear_data(self):
         self.set_data_bits_auto(0, 0, 3, 0)
         for i in range(1, 8):
@@ -30,14 +31,15 @@ class NavigationP(Processer):
     dt = destination 目的地
     ncr = next crossroad 下一个路口
     """
+
     def set_nav_distance_and_time(self, dt_distance, dt_hours,
                                   dt_minutes, ncr_distance):
         self.clear_data()
         self.set_data_bits_auto(0, 0, 3, 1)
-        self.set_data_bytes_auto(2, 3, dt_distance)
-        self.set_data_auto(4, dt_hours)
-        self.set_data_auto(5, dt_minutes)
-        self.set_data_bytes_auto(6, 7, ncr_distance)
+        self.set_data_bytes_auto(2, 3, int(dt_distance * 10))
+        self.set_data_auto(4, int(dt_hours))
+        self.set_data_auto(5, int(dt_minutes))
+        self.set_data_bytes_auto(6, 7, int(ncr_distance))
         return self.get_data()
 
     """
@@ -48,18 +50,20 @@ class NavigationP(Processer):
 
     ncr = next crossroad 下一个路口
     """
+
     def set_nav_crossroad_and_angle(self, ncr_progress, ncr_type, angle):
         self.clear_data()
         self.set_data_bits_auto(0, 0, 3, 2)
-        self.set_data_auto(2, ncr_progress)
-        self.set_data_auto(3, ncr_type)
-        self.set_data_bytes_auto(4, 5, angle)
+        self.set_data_auto(2, int(ncr_progress))
+        self.set_data_auto(3, int(ncr_type))
+        self.set_data_bytes_auto(4, 5, int(angle))
         return self.get_data()
 
     """
     第0个字节0~3位为3表示当前道路名称
     第1个字节5~7位为0表示清除当前道路名称
     """
+
     def clear_nav_road(self):
         self.clear_data()
         self.set_data_bits_auto(0, 0, 3, 3)
@@ -75,6 +79,7 @@ class NavigationP(Processer):
     (特殊情况,只有1个起始包001,并且路名少于3个字,末尾依然设置0xFFFF)
     无论多少个包，最后一个结束包011末尾都要设置0xFFFF
     """
+
     def set_nav_road(self, number, is_end, name):
         if len(name) > 3:
             raise Exception("单个包路名数据超载")
@@ -113,6 +118,7 @@ class NavigationP(Processer):
     """
     设置导航路名,返回数据包数组
     """
+
     def set_nav_road_names(self, name):
         package = []
         # 路名3个分一组数据包,记录总共有需要多少组数据包
@@ -135,18 +141,18 @@ class NavigationP(Processer):
     cam_type            第4个字节4~7位表示电子眼类型
     dest_dist           第5个字节 + 第4个字节0~3位表示电子眼距离
     """
+
     def set_nav_e_dog(self, cam_speed_limit, cam_type, dest_dist):
         self.clear_data()
         self.set_data_bits_auto(0, 0, 3, 4)
         self.set_data_bits_auto(1, 5, 7, 4)
-        self.set_data_auto(3, cam_speed_limit)
-        self.set_data_bits_auto(4, 4, 7, cam_type)
-        dist_high4 = (dest_dist & 0xf00) >> 8
-        dist_low8 = dest_dist & 0xff
+        self.set_data_auto(3, int(cam_speed_limit))
+        self.set_data_bits_auto(4, 4, 7, int(cam_type))
+        dist_high4 = (int(dest_dist) & 0xf00) >> 8
+        dist_low8 = int(dest_dist) & 0xff
         self.set_data_bits_auto(4, 0, 3, dist_high4)
         self.set_data_auto(5, dist_low8)
         return self.get_data()
-
 
 # nav = NavigationP()
 # nav.clear_data()

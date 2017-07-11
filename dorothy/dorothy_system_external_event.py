@@ -29,9 +29,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     :static variable control_board_serial_port: control board serial port handler
     """
     control_board_serial_port = None
-    digital_values = {
-
-    }
+    digital_values = {}
+    navigation_values = {}
 
     def __init__(self, control_board_serial_port, mock_enable=False):
         """
@@ -55,6 +54,10 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.limit_p = LimitSpeedP()
         self.indicator_p = IndicatorP()
         self.p_set = self.control_board_serial_port
+        self.dest_distance = 0
+        self.dest_hour = 0
+        self.dest_minute = 0
+        self.next_cross_distance = 0
 
     def set_up(self):
         self.interval = 0
@@ -92,6 +95,33 @@ class DorothySystemExternalEvent(SystemExternalEvent):
                             "Package List Name": self.p_set.var_fuel},
         }
 
+        self.navigation_values = {
+            "DestDistance": {"Package": "navigation_1",
+                             "Initial Value": 0,
+                             "End Value": 0,
+                             "Process": self.navigation_p,
+                             "Process Set Value Method": self.navigation_p.set_nav_distance_and_time,
+                             "Package List Name": self.p_set.var_navigation_navi1},
+            "DestHour": {"Package": "navigation_1",
+                         "Initial Value": 0,
+                         "End Value": 0,
+                         "Process": self.navigation_p,
+                         "Process Set Value Method": self.navigation_p.set_nav_distance_and_time,
+                         "Package List Name": self.p_set.var_navigation_navi1},
+            "DestMinute": {"Package": "navigation_1",
+                           "Initial Value": 0,
+                           "End Value": 0,
+                           "Process": self.navigation_p,
+                           "Process Set Value Method": self.navigation_p.set_nav_distance_and_time,
+                           "Package List Name": self.p_set.var_navigation_navi1},
+            "NextCrossDistance": {"Package": "navigation_1",
+                                  "Initial Value": 0,
+                                  "End Value": 0,
+                                  "Process": self.navigation_p,
+                                  "Process Set Value Method": self.navigation_p.set_nav_distance_and_time,
+                                  "Package List Name": self.p_set.var_navigation_navi1},
+        }
+
     # def tear_down(self):
 
     def set_value(self, key, value):
@@ -103,17 +133,17 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
 
         if key == 'Speed':
-            self.p_set.set_initial_value(key, int(value))
-            self.p_set.set_end_value(key, int(value))
+            self.p_set.set_initial_value(key, float(value))
+            self.p_set.set_end_value(key, float(value))
             # if self.nav_script is not None:
-            #    self.nav_script.set_car_speed(int(value))
-            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            #    self.nav_script.set_car_speed(float(value))
+            self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
         elif key == 'RPM':
-            self.p_set.set_initial_value(key, int(value))
-            self.p_set.set_end_value(key, int(value))
-            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set_initial_value(key, float(value))
+            self.p_set.set_end_value(key, float(value))
+            self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
         elif key == 'RPMValid':
@@ -124,9 +154,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set(self.p_set.var_limit_speed,
                            self.limit_p.get_data())
         elif key == 'LimitCruiseSpeed':
-            self.p_set.set_initial_value(key, int(value))
-            self.p_set.set_end_value(key, int(value))
-            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set_initial_value(key, float(value))
+            self.p_set.set_end_value(key, float(value))
+            self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
         elif key == 'LimitControlStatus':
@@ -158,9 +188,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set(self.p_set.var_indicator,
                            self.indicator_p.get_data())
         elif key == 'ECT':
-            self.p_set.set_initial_value(key, int(value))
-            self.p_set.set_end_value(key, int(value))
-            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.p_set.set_initial_value(key, float(value))
+            self.p_set.set_end_value(key, float(value))
+            self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
         elif key == 'ECTValid':
@@ -171,8 +201,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set(self.p_set.var_coolant_temp,
                            self.engine_p.get_data())
         elif key == 'SurplusFuel':
-            self.p_set.set_initial_value(key, int(value))
-            self.p_set.set_end_value(key, int(value))
+            self.p_set.set_initial_value(key, float(value))
+            self.p_set.set_end_value(key, float(value))
             self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
@@ -184,6 +214,38 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.fuel_p.set_passenger_seat_belt_warning(value)
             self.p_set.set(self.p_set.var_fuel,
                            self.fuel_p.get_data())
+        elif key == 'DestDistance':
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            self.dest_distance = float(value)
+            self.navigation_values.get(key)["Process Set Value Method"](self.dest_distance, self.dest_hour,
+                                                                        self.dest_minute, self.next_cross_distance)
+            self.p_set.set_navigation(self.navigation_values.get(key)["Package List Name"],
+                                      self.navigation_values.get(key)["Process"].get_data())
+        elif key == 'DestHour':
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            self.dest_hour = float(value)
+            self.navigation_values.get(key)["Process Set Value Method"](self.dest_distance, self.dest_hour,
+                                                                        self.dest_minute, self.next_cross_distance)
+            self.p_set.set_navigation(self.navigation_values.get(key)["Package List Name"],
+                                      self.navigation_values.get(key)["Process"].get_data())
+        elif key == 'DestMinute':
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            self.dest_minute = float(value)
+            self.navigation_values.get(key)["Process Set Value Method"](self.dest_distance, self.dest_hour,
+                                                                        self.dest_minute, self.next_cross_distance)
+            self.p_set.set_navigation(self.navigation_values.get(key)["Package List Name"],
+                                      self.navigation_values.get(key)["Process"].get_data())
+        elif key == 'NextCrossDistance':
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            self.next_cross_distance = float(value)
+            self.navigation_values.get(key)["Process Set Value Method"](self.dest_distance, self.dest_hour,
+                                                                        self.dest_minute, self.next_cross_distance)
+            self.p_set.set_navigation(self.navigation_values.get(key)["Package List Name"],
+                                      self.navigation_values.get(key)["Process"].get_data())
 
     def send(self, value):
         """
@@ -229,7 +291,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("set_signal_interval:" + str(interval))
-        self.interval = int(interval)
+        self.interval = float(interval)
 
     def set_signal_duration(self, duration):
         """
@@ -238,7 +300,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("set_signal_duration:" + str(duration))
-        self.duration = int(duration)
+        self.duration = float(duration)
         self.p_set.set_duration(duration)
 
     def set_initial_value(self, key, value):
@@ -249,7 +311,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("set_initial_value:" + str(value))
-        self.p_set.set_initial_value(key, value)
+        self.p_set.set_initial_value(key, float(value))
 
     def set_end_value(self, key, value):
         """
@@ -259,7 +321,27 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("set_end_value:" + str(value))
-        self.p_set.set_end_value(key, value)
+        self.p_set.set_end_value(key, float(value))
+
+    def set_initial_navigation_value(self, key, value):
+        """
+        set initial value for key
+        :param key: key
+        :param value: value
+        :return: None
+        """
+        logging.debug("set_initial_value:" + str(value))
+        self.p_set.set_initial_navigation_value(key, float(value))
+
+    def set_end_navigation_value(self, key, value):
+        """
+        set end value for key
+        :param key: key
+        :param value: value
+        :return: None
+        """
+        logging.debug("set_end_value:" + str(value))
+        self.p_set.set_end_navigation_value(key, float(value))
 
     def start_generate_signal(self):
         """
