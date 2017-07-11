@@ -173,7 +173,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         elif key == 'SurplusFuel':
             self.p_set.set_initial_value(key, int(value))
             self.p_set.set_end_value(key, int(value))
-            self.digital_values.get(key)["Process Set Value Method"](int(value))
+            self.digital_values.get(key)["Process Set Value Method"](float(value))
             self.p_set.set(self.digital_values.get(key)["Package List Name"],
                            self.digital_values.get(key)["Process"].get_data())
         elif key == 'DriverSeatBeltLamp':

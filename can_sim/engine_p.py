@@ -11,7 +11,7 @@ class CoolantTemperatureP(Processer):
     # 第0个字节完整表示引擎冷却剂温度，取值范围-40~215，数据偏移-40
     def set_temperature(self, temperature):
         temperature = temperature + 40
-        self.set_data_auto(0, temperature)
+        self.set_data_auto(0, int(temperature))
 
     # 第2个字节低位第0位表示引擎冷却剂温度是否有效
     def set_status(self, status):

@@ -136,13 +136,13 @@ class DorothyPackageSet(PackageSet):
                     logging.debug("end " + key + ":" + str(end_value))
                     logging.debug("duration:" + str(self.duration))
                     if init_value != end_value:
-                        current_value = int(init_value + (end_value -
+                        current_value = float(init_value + (end_value -
                                                           init_value) * eclipse_time / self.duration)
                     else:
                         current_value = init_value
 
                     logging.debug("current " + key + ":" + str(current_value))
-                    value["Process Set Value Method"](int(current_value))
+                    value["Process Set Value Method"](float(current_value))
                     self.set(value["Package List Name"],
                              value["Process"].get_data())
 
@@ -169,7 +169,7 @@ class DorothyPackageSet(PackageSet):
         :return: None
         """
         logging.debug("set_initial_value:" + str(value))
-        self.digital_values.get(key)["Initial Value"] = int(value)
+        self.digital_values.get(key)["Initial Value"] = float(value)
 
     def set_end_value(self, key, value):
 
@@ -180,4 +180,4 @@ class DorothyPackageSet(PackageSet):
         :return: None
         """
         logging.debug("set_end_value:" + str(value))
-        self.digital_values.get(key)["End Value"] = int(value)
+        self.digital_values.get(key)["End Value"] = float(value)
