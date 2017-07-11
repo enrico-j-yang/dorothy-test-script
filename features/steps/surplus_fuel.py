@@ -4,7 +4,6 @@ surplus_fuel.py is step implementation file for SurplusFuel.feature
 
 """
 import logging
-from time import sleep
 
 from behave import *
 

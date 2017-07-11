@@ -10,7 +10,7 @@ class SpeedP(Processer):
 
     # 第1个字节完整表示当前车速
     def set_speed(self, speed):
-        self.set_data_auto(1, speed)
+        self.set_data_auto(1, int(speed))
 
 
 class LimitSpeedP(Processer):
@@ -44,14 +44,14 @@ class LimitSpeedP(Processer):
         super().__init__(0x118)
 
     def set_rpm(self, rpm):
-        self.set_data_auto(1, rpm / 4)
+        self.set_data_auto(1, int(rpm / 4))
 
     def set_rpm_valid(self, valid):
         self.set_data_bit_auto(2, 0, valid)
 
     # 第3个字节完整表示限速速度
     def set_limit_speed(self, limit_speed):
-        self.set_data_auto(3, limit_speed)
+        self.set_data_auto(3, int(limit_speed))
 
     # 第4个字节低位0~1位代表限速状态
     def set_limit_status(self, status):

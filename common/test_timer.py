@@ -49,7 +49,7 @@ class MyLoopTimer(threading.Thread):
 
     def __init__(self, event, interval, callback_function, cb_args):
         super(MyLoopTimer, self).__init__(name=str(interval))
-        self.stopped = event
+        self.event = event
         self.interval = interval
         self.cb_args = cb_args
         self.callback_function = callback_function
@@ -57,5 +57,13 @@ class MyLoopTimer(threading.Thread):
         logging.debug("interval:" + str(self.interval))
 
     def run(self):
-        while not self.stopped.wait(self.interval):
-            self.callback_function(self.cb_args[0], self.cb_args[1])
+        while not self.event.wait(self.interval):
+            if isinstance(self.cb_args, tuple):
+                if len(self.cb_args) == 2:
+                    self.callback_function(self.cb_args[0], self.cb_args[1])
+                elif len(self.cb_args) == 1:
+                    self.callback_function(self.cb_args[0])
+                else:
+                    raise Exception
+            else:
+                self.callback_function(self.cb_args)
