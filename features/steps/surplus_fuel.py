@@ -50,7 +50,7 @@ def step_impl(context):
     context.dorothyActRes.mock_value('LowFuelWaring', 'Off')
     context.dorothyActRes.get_value('LowFuelWaring')
     if context.dorothyActRes.dist['LowFuelWaring'] == 'On':
-        context.dorothyTestInput.sysExtEvt.set_value('Fuel', 40)
+        context.dorothyTestInput.sysExtEvt.set_value('SurplusFuel', 40)
         context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
         context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
@@ -82,10 +82,10 @@ def step_impl(context):
 
 @given(u'HUD显示低燃油报警')
 def step_impl(context):
-    context.dorothyActRes.mock_value('LowFuelWaring', 'Off')
+    context.dorothyActRes.mock_value('LowFuelWaring', 'On')
     context.dorothyActRes.get_value('LowFuelWaring')
     if context.dorothyActRes.dist['LowFuelWaring'] == 'Off':
-        context.dorothyTestInput.sysExtEvt.set_value('Fuel', 7)
+        context.dorothyTestInput.sysExtEvt.set_value('SurplusFuel', 7)
         context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
         context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
@@ -99,17 +99,17 @@ def step_impl(context):
 
 @when(u'CANBUS上剩余油量在{duration}秒内从{init_fuel}升上升到{end_fuel}升')
 def step_impl(context, duration, init_fuel, end_fuel):
-    context.dorothyTestInput.sysExtEvt.set_initial_value('SurplusFuel', int(init_fuel))
-    context.dorothyTestInput.sysExtEvt.set_end_value('SurplusFuel', int(end_fuel))
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
+    context.dorothyTestInput.sysExtEvt.set_initial_value('SurplusFuel', float(init_fuel))
+    context.dorothyTestInput.sysExtEvt.set_end_value('SurplusFuel', float(end_fuel))
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(float(duration))
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @then(u'CANBUS上剩余油量在{duration}秒内从{init_fuel}升下降到{end_fuel}升')
 def step_impl(context, duration, init_fuel, end_fuel):
-    context.dorothyExpRes.set_value('Fuel', int(end_fuel))
-    context.dorothyActRes.mock_value('Fuel', int(end_fuel))
-    context.dorothyActRes.get_value('Fuel')
-    logging.debug("context.dorothyExpRes.Fuel: " + str(context.dorothyExpRes.dist['Fuel']))
-    logging.debug("context.dorothyActRes.Fuel: " + str(context.dorothyActRes.dist['Fuel']))
-    assert context.dorothyActRes.dist['Fuel'] == context.dorothyExpRes.dist['Fuel']
+    context.dorothyExpRes.set_value('SurplusFuel', float(end_fuel))
+    context.dorothyActRes.mock_value('SurplusFuel', float(end_fuel))
+    context.dorothyActRes.get_value('SurplusFuel')
+    logging.debug("context.dorothyExpRes.SurplusFuel: " + str(context.dorothyExpRes.dist['SurplusFuel']))
+    logging.debug("context.dorothyActRes.SurplusFuel: " + str(context.dorothyActRes.dist['SurplusFuel']))
+    assert context.dorothyActRes.dist['SurplusFuel'] == context.dorothyExpRes.dist['SurplusFuel']

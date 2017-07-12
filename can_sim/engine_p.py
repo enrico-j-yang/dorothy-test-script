@@ -3,8 +3,12 @@ from can_sim.process import *
 
 
 class CoolantTemperatureP(Processer):
-
     """引擎冷却剂数据封装器"""
+    _ect_invalid_status_data = [
+        (0, 'Valid'),
+        (1, 'Invalid'),
+    ]
+
     def __init__(self):
         super().__init__(0x2F2)
 
@@ -15,8 +19,7 @@ class CoolantTemperatureP(Processer):
 
     # 第2个字节低位第0位表示引擎冷却剂温度是否有效
     def set_status(self, status):
-        self.set_data_bit_auto(2, 0, status)
-
+        self.set_data_bit_auto(2, 0, [tup for tup in self._ect_invalid_status_data if tup[1] == status][0][0])
 
 # coolant = CoolantTemperatureP()
 # coolant.set_temperature(40)
