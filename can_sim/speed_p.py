@@ -15,6 +15,10 @@ class SpeedP(Processer):
 
 class LimitSpeedP(Processer):
     """燃油协议数据封装器"""
+    _rpm_invalid_status_data = [
+        (0, 'Valid'),
+        (1, 'Invalid'),
+    ]
     _limit_control_status_data = [
         (0, 'Off'),
         (1, 'Standby'),
@@ -47,7 +51,7 @@ class LimitSpeedP(Processer):
         self.set_data_auto(1, int(rpm / 4))
 
     def set_rpm_valid(self, valid):
-        self.set_data_bit_auto(2, 0, valid)
+        self.set_data_bit_auto(2, 0, [tup for tup in self._rpm_invalid_status_data if tup[1] == valid][0][0])
 
     # 第3个字节完整表示限速速度
     def set_limit_speed(self, limit_speed):

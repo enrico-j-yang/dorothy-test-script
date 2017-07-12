@@ -12,19 +12,19 @@ from behave import *
 @when(u'CANBUS上有速度为{speed}km/h')
 def step_impl(context, speed):
     logging.debug("speed: " + speed)
-    context.dorothyTestInput.sysExtEvt.set_value('Speed', int(speed))
+    context.dorothyTestInput.sysExtEvt.set_value('Speed', speed)
 
 
 @when(u'CANBUS上信号持续{duration}秒')
 def step_impl(context, duration):
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @then(u'HUD显示速度为{speed}km/h')
 def step_impl(context, speed):
-    context.dorothyExpRes.set_value('Speed', int(speed))
-    context.dorothyActRes.mock_value('Speed', int(speed))
+    context.dorothyExpRes.set_value('Speed', speed)
+    context.dorothyActRes.mock_value('Speed', speed)
     context.dorothyActRes.get_value('Speed')
     logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
     logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
@@ -33,16 +33,16 @@ def step_impl(context, speed):
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h增加到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', int(init_speed))
-    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', int(end_speed))
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
+    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', init_speed)
+    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', end_speed)
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @then(u'HUD显示速度在{duration}秒内从{init_speed}km/h增加到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyExpRes.set_value('Speed', int(end_speed))
-    context.dorothyActRes.mock_value('Speed', int(end_speed))
+    context.dorothyExpRes.set_value('Speed', end_speed)
+    context.dorothyActRes.mock_value('Speed', end_speed)
     context.dorothyActRes.get_value('Speed')
     logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
     logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
@@ -51,16 +51,16 @@ def step_impl(context, duration, init_speed, end_speed):
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h下降到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', int(init_speed))
-    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', int(end_speed))
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(int(duration))
+    context.dorothyTestInput.sysExtEvt.set_initial_value('Speed', init_speed)
+    context.dorothyTestInput.sysExtEvt.set_end_value('Speed', end_speed)
+    context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @then(u'HUD显示速度在{duration}秒内从{init_speed}km/h下降到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyExpRes.set_value('Speed', int(end_speed))
-    context.dorothyActRes.mock_value('Speed', int(end_speed))
+    context.dorothyExpRes.set_value('Speed', end_speed)
+    context.dorothyActRes.mock_value('Speed', end_speed)
     context.dorothyActRes.get_value('Speed')
     logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
     logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
@@ -70,7 +70,7 @@ def step_impl(context, duration, init_speed, end_speed):
 @when(u'CANBUS上有速度为{speed}')
 def step_impl(context, speed):
     logging.debug("speed: " + speed)
-    context.dorothyTestInput.sysExtEvt.set_value('Speed', int(speed))
+    context.dorothyTestInput.sysExtEvt.set_value('Speed', speed)
 
 
 @when(u'CANBUS上信号断开{duration}秒')

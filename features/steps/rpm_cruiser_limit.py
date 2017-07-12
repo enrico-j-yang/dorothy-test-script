@@ -11,12 +11,12 @@ from behave import *
 @when(u'CANBUS上有引擎转速为{rpm}')
 def step_impl(context, rpm):
     logging.debug("rpm: " + rpm)
-    context.dorothyTestInput.sysExtEvt.set_value('RPM', int(rpm))
+    context.dorothyTestInput.sysExtEvt.set_value('RPM', float(rpm))
 
 
 @when(u'CANBUS上有合法引擎转速')
 def step_impl(context):
-    context.dorothyTestInput.sysExtEvt.set_value('RPMValid', True)
+    context.dorothyTestInput.sysExtEvt.set_value('RPMValid', 'Valid')
 
 
 @when(u'CANBUS上限速控制状态为{status}')
@@ -51,7 +51,7 @@ def step_impl(context, status):
 
 @when(u'CANBUS上限速巡航速度为{speed}')
 def step_impl(context, speed):
-    context.dorothyTestInput.sysExtEvt.set_value('LimitCruiseSpeed', int(speed))
+    context.dorothyTestInput.sysExtEvt.set_value('LimitCruiseSpeed', float(speed))
 
 
 @when(u'CANBUS上发动机状态信息为{status}')
@@ -130,8 +130,8 @@ def step_impl(context, limit_speed):
     logging.debug("context.dorothyActRes.LimitSpeedIcon: " + str(context.dorothyActRes.dist['LimitSpeedIcon']))
     assert context.dorothyActRes.dist['LimitSpeedIcon'] == context.dorothyExpRes.dist['LimitSpeedIcon']
 
-    context.dorothyExpRes.set_value('LimitSpeed', int(limit_speed))
-    context.dorothyActRes.mock_value('LimitSpeed', int(limit_speed))
+    context.dorothyExpRes.set_value('LimitSpeed', float(limit_speed))
+    context.dorothyActRes.mock_value('LimitSpeed', float(limit_speed))
     context.dorothyActRes.get_value('LimitSpeed')
     logging.debug("context.dorothyExpRes.LimitSpeed: " + str(context.dorothyExpRes.dist['LimitSpeed']))
     logging.debug("context.dorothyActRes.LimitSpeed: " + str(context.dorothyActRes.dist['LimitSpeed']))
@@ -157,8 +157,8 @@ def step_impl(context, cruise_speed):
     logging.debug("context.dorothyActRes.CruiseSpeedIcon: " + str(context.dorothyActRes.dist['CruiseSpeedIcon']))
     assert context.dorothyActRes.dist['CruiseSpeedIcon'] == context.dorothyExpRes.dist['CruiseSpeedIcon']
 
-    context.dorothyExpRes.set_value('CruiseSpeed', int(cruise_speed))
-    context.dorothyActRes.mock_value('CruiseSpeed', int(cruise_speed))
+    context.dorothyExpRes.set_value('CruiseSpeed', float(cruise_speed))
+    context.dorothyActRes.mock_value('CruiseSpeed', float(cruise_speed))
     context.dorothyActRes.get_value('CruiseSpeed')
     logging.debug("context.dorothyExpRes.CruiseSpeed: " + str(context.dorothyExpRes.dist['CruiseSpeed']))
     logging.debug("context.dorothyActRes.CruiseSpeed: " + str(context.dorothyActRes.dist['CruiseSpeed']))
