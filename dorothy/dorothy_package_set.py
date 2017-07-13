@@ -92,8 +92,17 @@ class DorothyPackageSet(PackageSet):
                             "End Value": 0,
                             "Process": self.fuel_p,
                             "Process Set Value Method": self.fuel_p.set_fuel},
+            "TirePressure": {"Package": self.var_tire,
+                             "Initial Value": 0,
+                             "End Value": 0,
+                             "Process": self.tire_p,
+                             "Process Set Value Method": self.tire_p.set_tire_pressure},
+            "TireTemperature": {"Package": self.var_tire,
+                                "Initial Value": 0,
+                                "End Value": 0,
+                                "Process": self.tire_p,
+                                "Process Set Value Method": self.tire_p.set_tire_temperature}
         }
-
         self.list_values = {
             "RPMValid": {"Package": self.var_limit_speed,
                          "Process": self.limit_p,
@@ -128,8 +137,36 @@ class DorothyPackageSet(PackageSet):
             'PassengerSeatBeltLamp': {"Package": self.var_fuel,
                                       "Process": self.fuel_p,
                                       "Process Set Value Method": self.fuel_p.set_passenger_seat_belt_warning},
-        }
+            'SystemStatus': {"Package": self.var_tire,
+                             "Process": self.tire_p,
+                             "Process Set Value Method": self.tire_p.set_system_status},
+            'TireID': {"Package": self.var_tire,
+                       "Process": self.tire_p,
+                       "Process Set Value Method": self.tire_p.set_tire_id},
+            'TireInformation': {"Package": self.var_tire,
+                                "Process": self.tire_p,
+                                "Process Set Value Method": self.tire_p.set_tire_validity},
+            'TireLeakage': {"Package": self.var_tire,
+                            "Process": self.tire_p,
+                            "Process Set Value Method": self.tire_p.set_tire_leak},
+            'LearningStatus': {"Package": self.var_tire,
+                               "Process": self.tire_p,
+                               "Process Set Value Method": self.tire_p.set_tire_learning_status},
+            'TirePressureStatus': {"Package": self.var_tire,
+                                   "Process": self.tire_p,
+                                   "Process Set Value Method": self.tire_p.set_tire_pressure_status},
+            'TireTemperatureStatus': {"Package": self.var_tire,
+                                      "Process": self.tire_p,
+                                      "Process Set Value Method": self.tire_p.set_tire_temperature_status},
+            'TireBatteryPower': {"Package": self.var_tire,
+                                 "Process": self.tire_p,
+                                 "Process Set Value Method": self.tire_p.set_tire_battery_power},
+            'TireBatteryPowerSts': {"Package": self.var_tire,
+                                    "Process": self.tire_p,
+                                    "Process Set Value Method": self.tire_p.set_tire_battery_power_status},
 
+
+        }
         self.navigation_digital_values = {
             "DestDistance": {"Package": self.var_navigation_navi1,
                              "Initial Value": 0,
