@@ -20,29 +20,33 @@ def step_impl(context):
 
 @then(u'HUD不显示高水温报警')
 def step_impl(context):
-    context.dorothyExpRes.set_value('ECTIcon', 'Off')
-    context.dorothyActRes.mock_value('ECTIcon', 'Off')
-    context.dorothyActRes.get_value('ECTIcon')
-    logging.debug("context.dorothyExpRes.ECTIcon: " + str(context.dorothyExpRes.dist['ECTIcon']))
-    logging.debug("context.dorothyActRes.ECTIcon: " + str(context.dorothyActRes.dist['ECTIcon']))
-    assert context.dorothyActRes.dist['ECTIcon'] == context.dorothyExpRes.dist['ECTIcon']
+    key = 'ECTIcon'
+    value = 'Off'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @given(u'HUD不显示高水温报警')
 def step_impl(context):
-    context.dorothyActRes.mock_value('ECTIcon', 'Off')
-    context.dorothyActRes.get_value('ECTIcon')
-    if context.dorothyActRes.dist['ECTIcon'] == 'On':
+    key = 'ECTIcon'
+    value = 'Off'
+    context.dorothyActRes.mock_value(key, 'Off')
+    context.dorothyActRes.get_value(key)
+    if context.dorothyActRes.dist[key] == 'On':
         context.dorothyTestInput.sysExtEvt.set_value('ECT', 40)
         context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
         context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
-    context.dorothyExpRes.set_value('ECTIcon', 'Off')
-    context.dorothyActRes.mock_value('ECTIcon', 'Off')
-    context.dorothyActRes.get_value('ECTIcon')
-    logging.debug("context.dorothyExpRes.ECTIcon: " + str(context.dorothyExpRes.dist['ECTIcon']))
-    logging.debug("context.dorothyActRes.ECTIcon: " + str(context.dorothyActRes.dist['ECTIcon']))
-    assert context.dorothyActRes.dist['ECTIcon'] == context.dorothyExpRes.dist['ECTIcon']
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @when(u'CANBUS上引擎冷却剂温度在{duration}秒内从{init_temp}度增加到{end_temp}度')
@@ -55,29 +59,33 @@ def step_impl(context, duration, init_temp, end_temp):
 
 @then(u'HUD显示高水温报警')
 def step_impl(context):
-    context.dorothyExpRes.set_value('ECTIcon', 'On')
-    context.dorothyActRes.mock_value('ECTIcon', 'On')
-    context.dorothyActRes.get_value('ECTIcon')
-    logging.debug("context.dorothyExpRes.ECTIcon: " + str(context.dorothyExpRes.dist['ECTIcon']))
-    logging.debug("context.dorothyActRes.ECTIcon: " + str(context.dorothyActRes.dist['ECTIcon']))
-    assert context.dorothyActRes.dist['ECTIcon'] == context.dorothyExpRes.dist['ECTIcon']
+    key = 'ECTIcon'
+    value = 'On'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @given(u'HUD显示高水温报警')
 def step_impl(context):
-    context.dorothyActRes.mock_value('ECTIcon', 'On')
-    context.dorothyActRes.get_value('ECTIcon')
-    if context.dorothyActRes.dist['ECTIcon'] == 'Off':
+    key = 'ECTIcon'
+    value = 'On'
+    context.dorothyActRes.mock_value(key, 'On')
+    context.dorothyActRes.get_value(key)
+    if context.dorothyActRes.dist[key] == 'Off':
         context.dorothyTestInput.sysExtEvt.set_value('ECT', 100)
         context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
         context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value('ECTIcon', 'On')
-    context.dorothyActRes.mock_value('ECTIcon', 'On')
-    context.dorothyActRes.get_value('ECTIcon')
-    logging.debug("context.dorothyExpRes.ECTIcon: " + str(context.dorothyExpRes.dist['ECTIcon']))
-    logging.debug("context.dorothyActRes.ECTIcon: " + str(context.dorothyActRes.dist['ECTIcon']))
-    assert context.dorothyActRes.dist['ECTIcon'] == context.dorothyExpRes.dist['ECTIcon']
+        
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @when(u'CANBUS上引擎冷却剂温度在{duration}秒内从{init_temp}度下降到{end_temp}度')

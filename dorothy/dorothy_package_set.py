@@ -17,9 +17,13 @@ class DorothyPackageSet(PackageSet):
     duration = 0
     start_time = 0
     interrupt = False
+
     digital_values = {}
     list_values = {}
     navigation_digital_values = {}
+    navigation_list_values = {}
+    navigation_road_values = {}
+
     var_navigation_clear = "navigation_clear"
     var_navigation_navi1 = "navigation_1"
     var_navigation_navi2 = "navigation_2"
@@ -27,10 +31,9 @@ class DorothyPackageSet(PackageSet):
     var_navigation_navi3 = "navigation_3"
 
     navigation_thread = None
-
     navigation_cycle_time = 0.1
-
     navigation_flag = False
+    navigation_road_name = []
 
     navigation_package_list = {
         var_navigation_clear: [0x333, PackageSet.default_data, navigation_cycle_time],
@@ -148,11 +151,40 @@ class DorothyPackageSet(PackageSet):
                                   "End Value": 0,
                                   "Process": self.navigation_p,
                                   "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
-            "RoadName": {"Package": self.var_navigation_current_road,
-                         "Initial Value": 0,
-                         "End Value": 0,
-                         "Process": self.navigation_p,
-                         "Process Set Value Method": self.navigation_p.set_nav_road},
+        }
+
+        self.navigation_road_values = {
+            "RoadName1": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName2": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName3": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName4": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName5": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName6": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName7": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName8": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName9": {"Package": self.var_navigation_current_road,
+                          "Process": self.navigation_p,
+                          "Process Set Value Method": self.navigation_p.set_nav_road_names},
+            "RoadName10": {"Package": self.var_navigation_current_road,
+                           "Process": self.navigation_p,
+                           "Process Set Value Method": self.navigation_p.set_nav_road_names},
+
         }
 
     def set_duration(self, duration):
@@ -186,7 +218,8 @@ class DorothyPackageSet(PackageSet):
             self.threads.append(t)
 
         if self.navigation_flag:
-            self.navigation_thread = MyLoopTimer(self.stop_flag, self.navigation_cycle_time, self.send_navi_callback,
+            self.navigation_thread = MyLoopTimer(self.stop_flag, self.navigation_cycle_time,
+                                                 self.send_navigation_callback,
                                                  (self.navigation_cycle_time,))
             self.threads.append(self.navigation_thread)
 
@@ -222,10 +255,10 @@ class DorothyPackageSet(PackageSet):
                     if value["Package"] == val:
                         init_value = value["Initial Value"]
                         end_value = value["End Value"]
-
                         logging.debug("init " + key + ":" + str(init_value))
                         logging.debug("end " + key + ":" + str(end_value))
                         logging.debug("duration:" + str(self.duration))
+
                         if init_value != end_value:
                             current_value = round(init_value + (end_value -
                                                                 init_value) * eclipse_time / self.duration, 1)
@@ -239,8 +272,6 @@ class DorothyPackageSet(PackageSet):
 
                 msg_id = self.package_list.get(val)[0]
                 msg_data = self.package_list.get(val)[1]
-                if msg_id == 0x118:
-                    pass
                 logging.debug("inc" + str(inc) + "-" + val + "-msg_id" + str(msg_id) + "-msg_data" + str(msg_data))
                 with self.lock:
                     send_status = self.can_serial.send_data(msg_id, msg_data)
@@ -256,7 +287,7 @@ class DorothyPackageSet(PackageSet):
             logging.error(e)
             self.stop_flag.set()
 
-    def send_navi_callback(self, inc):
+    def send_navigation_callback(self, inc):
         if self.interrupt is True:
             return
 
@@ -266,28 +297,7 @@ class DorothyPackageSet(PackageSet):
             logging.debug("eclipse_time:" + str(eclipse_time))
             for package_key, package_value in self.navigation_package_list.items():
                 parameters = ()
-                for key, value in self.navigation_digital_values.items():
-                    if value['Package'] == package_key:
-                        init_value = value["Initial Value"]
-                        end_value = value["End Value"]
-
-                        logging.debug("init " + key + ":" + str(init_value))
-                        logging.debug("end " + key + ":" + str(end_value))
-                        logging.debug("duration:" + str(self.duration))
-                        if init_value != end_value:
-                            current_value = round(init_value + (end_value -
-                                                                init_value) * eclipse_time / self.duration, 1)
-                        else:
-                            current_value = init_value
-
-                        logging.debug("current " + key + ":" + str(current_value))
-                        parameters += (current_value,)
-
-                if len(parameters) > 0:
-                    value["Process Set Value Method"](*parameters)
-                    self.set_navigation(value["Package"],
-                                        value["Process"].get_data())
-
+                if package_key == self.var_navigation_clear:
                     msg_id = package_value[0]
                     msg_data = package_value[1]
                     logging.debug(
@@ -302,8 +312,78 @@ class DorothyPackageSet(PackageSet):
                         logging.debug("请生成数据")
                     else:
                         logging.error("发送失败")
+                elif package_key == self.var_navigation_current_road:
+                    # 路名3个分一组数据包
+                    frame_count = 1
+                    for frame_index, part_name in self.navigation_road_name:
+                        # 是否为结束包
+                        if frame_count == self.navigation_road_name:
+                            end_flag = True
+                        else:
+                            end_flag = False
+                        self.navigation_p.set_nav_road(int(frame_index), end_flag, part_name)
+                        frame_count += 1
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
 
-        except Exception as e:
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
+                                msg_data))
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                elif package_key in (self.var_navigation_navi1, self.var_navigation_navi2, self.var_navigation_navi3):
+                    for key, value in self.navigation_digital_values.items():
+                        if value['Package'] == package_key:
+                            init_value = value["Initial Value"]
+                            end_value = value["End Value"]
+                            logging.debug("init " + key + ":" + str(init_value))
+                            logging.debug("end " + key + ":" + str(end_value))
+                            logging.debug("duration:" + str(self.duration))
+
+                            if init_value != end_value:
+                                current_value = round(init_value + (end_value -
+                                                                    init_value) * eclipse_time / self.duration, 1)
+                            else:
+                                current_value = init_value
+
+                            logging.debug("current " + package_key + ":" + str(current_value))
+                            parameters += (current_value,)
+
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
+
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
+                                msg_data))
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                else:
+                    logging.error("unknown navigation package key")
+                    self.stop_flag.set()
+        except IndexError as e:
+            # except Exception as e:
             logging.error(e)
             self.stop_flag.set()
 
@@ -350,4 +430,9 @@ class DorothyPackageSet(PackageSet):
     def set_navigation(self, key, value):
         data_tuple = self.navigation_package_list.get(key)
         data_tuple[1] = value[1]
+
+    def enable_navigation(self):
         self.navigation_flag = True
+
+    def set_navigation_road_name(self, frame_number, navigation_road_name):
+        self.navigation_road_name.append((frame_number, navigation_road_name))

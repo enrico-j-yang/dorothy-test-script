@@ -62,6 +62,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.digital_values = self.p_set.digital_values
         self.list_values = self.p_set.list_values
         self.navigation_digital_values = self.p_set.navigation_digital_values
+        self.navigation_list_values = self.p_set.navigation_list_values
+        self.navigation_road_values = self.p_set.navigation_road_values
 
     # def tear_down(self):
 
@@ -87,11 +89,14 @@ class DorothySystemExternalEvent(SystemExternalEvent):
                                                                                 self.dest_hour,
                                                                                 self.dest_minute,
                                                                                 self.next_cross_distance)
+            self.p_set.enable_navigation()
         elif self.navigation_list_values.get(key) is not None:
             # TODO:navigation_list_values
             print("navigation_list_values")
+            self.p_set.enable_navigation()
         elif self.navigation_road_values.get(key) is not None:
-            self.navigation_road_values.get(key)["Process Set Value Method"](value)
+            self.p_set.set_navigation_road_name(key[len("RoadName"):len("RoadName") + 1], value)
+            self.p_set.enable_navigation()
         else:
             raise UnKnownKeyError
 
