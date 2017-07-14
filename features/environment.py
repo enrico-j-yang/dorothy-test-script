@@ -34,7 +34,7 @@ def before_all(context):
     """
 
     context.log_control = LogControl
-    context.can_serial = SerialPort(context.log_control, mock_enable=False, send_mock=True)
+    context.can_serial = SerialPort(context.log_control, mock_enable=True, send_mock=True)
     context.p_set = DorothyPackageSet(context.can_serial)
     context.nav_script = NavScript(context.can_serial)
     context.nav_script.set_log_frame(context.log_control)

@@ -23,12 +23,14 @@ def step_impl(context, duration):
 
 @then(u'HUD显示速度为{speed}km/h')
 def step_impl(context, speed):
-    context.dorothyExpRes.set_value('Speed', speed)
-    context.dorothyActRes.mock_value('Speed', speed)
-    context.dorothyActRes.get_value('Speed')
-    logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
-    logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
-    assert context.dorothyActRes.dist['Speed'] == context.dorothyExpRes.dist['Speed']
+    key = 'Speed'
+    value = speed
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @when(u'CANBUS上速度在{duration}秒内从{init_speed}km/h增加到{end_speed}km/h')
@@ -59,12 +61,14 @@ def step_impl(context, duration, init_speed, end_speed):
 
 @then(u'HUD显示速度在{duration}秒内从{init_speed}km/h下降到{end_speed}km/h')
 def step_impl(context, duration, init_speed, end_speed):
-    context.dorothyExpRes.set_value('Speed', end_speed)
-    context.dorothyActRes.mock_value('Speed', end_speed)
-    context.dorothyActRes.get_value('Speed')
-    logging.debug("context.dorothyExpRes.Speed: " + str(context.dorothyExpRes.dist['Speed']))
-    logging.debug("context.dorothyActRes.Speed: " + str(context.dorothyActRes.dist['Speed']))
-    assert context.dorothyActRes.dist['Speed'] == context.dorothyExpRes.dist['Speed']
+    key = 'Speed'
+    value = end_speed
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @when(u'CANBUS上有速度为{speed}')

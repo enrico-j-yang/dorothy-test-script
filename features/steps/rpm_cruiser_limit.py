@@ -123,53 +123,65 @@ def step_impl(context, status):
 
 @then(u'HUD显示限速图标，限速{limit_speed}km/h')
 def step_impl(context, limit_speed):
-    context.dorothyExpRes.set_value('LimitSpeedIcon', 'On')
-    context.dorothyActRes.mock_value('LimitSpeedIcon', 'On')
-    context.dorothyActRes.get_value('LimitSpeedIcon')
-    logging.debug("context.dorothyExpRes.LimitSpeedIcon: " + str(context.dorothyExpRes.dist['LimitSpeedIcon']))
-    logging.debug("context.dorothyActRes.LimitSpeedIcon: " + str(context.dorothyActRes.dist['LimitSpeedIcon']))
-    assert context.dorothyActRes.dist['LimitSpeedIcon'] == context.dorothyExpRes.dist['LimitSpeedIcon']
+    key = 'LimitSpeedIcon'
+    value = 'On'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
-    context.dorothyExpRes.set_value('LimitSpeed', float(limit_speed))
-    context.dorothyActRes.mock_value('LimitSpeed', float(limit_speed))
-    context.dorothyActRes.get_value('LimitSpeed')
-    logging.debug("context.dorothyExpRes.LimitSpeed: " + str(context.dorothyExpRes.dist['LimitSpeed']))
-    logging.debug("context.dorothyActRes.LimitSpeed: " + str(context.dorothyActRes.dist['LimitSpeed']))
-    assert context.dorothyActRes.dist['LimitSpeed'] == context.dorothyExpRes.dist['LimitSpeed']
+    key = 'LimitSpeed'
+    value = limit_speed
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @then(u'HUD显示限速图标消失')
 def step_impl(context):
-    context.dorothyExpRes.set_value('LimitSpeedIcon', 'Off')
-    context.dorothyActRes.mock_value('LimitSpeedIcon', 'Off')
-    context.dorothyActRes.get_value('LimitSpeedIcon')
-    logging.debug("context.dorothyExpRes.LimitSpeedIcon: " + str(context.dorothyExpRes.dist['LimitSpeedIcon']))
-    logging.debug("context.dorothyActRes.LimitSpeedIcon: " + str(context.dorothyActRes.dist['LimitSpeedIcon']))
-    assert context.dorothyActRes.dist['LimitSpeedIcon'] == context.dorothyExpRes.dist['LimitSpeedIcon']
+    key = 'LimitSpeedIcon'
+    value = 'Off'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @then(u'HUD显示巡航图标，巡航{cruise_speed}km/h')
 def step_impl(context, cruise_speed):
-    context.dorothyExpRes.set_value('CruiseSpeedIcon', 'On')
-    context.dorothyActRes.mock_value('CruiseSpeedIcon', 'On')
-    context.dorothyActRes.get_value('CruiseSpeedIcon')
-    logging.debug("context.dorothyExpRes.CruiseSpeedIcon: " + str(context.dorothyExpRes.dist['CruiseSpeedIcon']))
-    logging.debug("context.dorothyActRes.CruiseSpeedIcon: " + str(context.dorothyActRes.dist['CruiseSpeedIcon']))
-    assert context.dorothyActRes.dist['CruiseSpeedIcon'] == context.dorothyExpRes.dist['CruiseSpeedIcon']
+    key = 'CruiseSpeedIcon'
+    value = 'On'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
-    context.dorothyExpRes.set_value('CruiseSpeed', float(cruise_speed))
-    context.dorothyActRes.mock_value('CruiseSpeed', float(cruise_speed))
-    context.dorothyActRes.get_value('CruiseSpeed')
-    logging.debug("context.dorothyExpRes.CruiseSpeed: " + str(context.dorothyExpRes.dist['CruiseSpeed']))
-    logging.debug("context.dorothyActRes.CruiseSpeed: " + str(context.dorothyActRes.dist['CruiseSpeed']))
-    assert context.dorothyActRes.dist['CruiseSpeed'] == context.dorothyExpRes.dist['CruiseSpeed']
+    key = 'CruiseSpeed'
+    value = cruise_speed
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
 
 
 @then(u'HUD显示巡航图标消失')
 def step_impl(context):
-    context.dorothyExpRes.set_value('CruiseSpeedIcon', 'Off')
-    context.dorothyActRes.mock_value('CruiseSpeedIcon', 'Off')
-    context.dorothyActRes.get_value('CruiseSpeedIcon')
-    logging.debug("context.dorothyExpRes.CruiseSpeedIcon: " + str(context.dorothyExpRes.dist['CruiseSpeedIcon']))
-    logging.debug("context.dorothyActRes.CruiseSpeedIcon: " + str(context.dorothyActRes.dist['CruiseSpeedIcon']))
-    assert context.dorothyActRes.dist['CruiseSpeedIcon'] == context.dorothyExpRes.dist['CruiseSpeedIcon']
+    key = 'CruiseSpeedIcon'
+    value = 'Off'
+    context.dorothyExpRes.set_value(key, value)
+    context.dorothyActRes.mock_value(key, value)
+    context.dorothyActRes.get_value(key)
+    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
+    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
+    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
