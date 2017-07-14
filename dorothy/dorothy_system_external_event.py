@@ -79,8 +79,12 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set_initial_value(key, float(value))
             self.p_set.set_end_value(key, float(value))
             self.digital_values.get(key)["Process Set Value Method"](float(value))
+            self.p_set.set(self.digital_values.get(key)["Package"],
+                           self.digital_values.get(key)["Process"].get_data())
         elif self.list_values.get(key) is not None:
             self.list_values.get(key)["Process Set Value Method"](value)
+            self.p_set.set(self.list_values.get(key)["Package"],
+                           self.list_values.get(key)["Process"].get_data())
         elif self.navigation_digital_values.get(key) is not None:
             self.p_set.set_initial_navigation_value(key, float(value))
             self.p_set.set_end_navigation_value(key, float(value))
