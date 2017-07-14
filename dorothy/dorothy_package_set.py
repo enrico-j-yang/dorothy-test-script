@@ -164,7 +164,21 @@ class DorothyPackageSet(PackageSet):
             'TireBatteryPowerSts': {"Package": self.var_tire,
                                     "Process": self.tire_p,
                                     "Process Set Value Method": self.tire_p.set_tire_battery_power_status},
-
+            'OperationStatus': {"Package": self.var_ldw,
+                                "Process": self.ldw_p,
+                                "Process Set Value Method": self.ldw_p.set_operation_status},
+            'RightWarningStatus': {"Package": self.var_ldw,
+                                   "Process": self.ldw_p,
+                                   "Process Set Value Method": self.ldw_p.set_right_warning_status},
+            'LeftWarningStatus': {"Package": self.var_ldw,
+                                  "Process": self.ldw_p,
+                                  "Process Set Value Method": self.ldw_p.set_left_warning_status},
+            'FaultStatus': {"Package": self.var_ldw,
+                            "Process": self.ldw_p,
+                            "Process Set Value Method": self.ldw_p.set_fault_status},
+            'CalculationStatus': {"Package": self.var_ldw,
+                                  "Process": self.ldw_p,
+                                  "Process Set Value Method": self.ldw_p.set_calculation_status},
         }
         self.navigation_digital_values = {
             "DestDistance": {"Package": self.var_navigation_navi1,
