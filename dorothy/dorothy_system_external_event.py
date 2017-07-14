@@ -95,7 +95,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             print("navigation_list_values")
             self.p_set.enable_navigation()
         elif self.navigation_road_values.get(key) is not None:
-            self.p_set.set_navigation_road_name(key[len("RoadName"):len("RoadName") + 1], value)
+            self.p_set.set_navigation_road_name(key, value)
             self.p_set.enable_navigation()
         else:
             raise UnKnownKeyError
@@ -202,7 +202,7 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         :return: None
         """
         logging.debug("start_generate_signal")
-        self.control_board_serial_port.start_send()
+        return self.control_board_serial_port.start_send()
 
     def stop_generate_signal(self):
         """
@@ -211,4 +211,4 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         """
         logging.debug("stop_generate_signal")
 
-        self.control_board_serial_port.stop_send()
+        return self.control_board_serial_port.stop_send()
