@@ -8,25 +8,6 @@ import logging
 from behave import *
 
 
-@given(u'HUD车道偏离状态为关闭')
-def step_impl(context):
-    key = 'LDWOperationStatus'
-    value = 'Off'
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    if context.dorothyActRes.dist[key] != 'Off':
-        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
-        context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
-        context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value(key, value)
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
-    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
-    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
-
-
 @given(u'HUD车道偏离状态为系统激活')
 def step_impl(context):
     key = 'LDWOperationStatus'
@@ -34,82 +15,6 @@ def step_impl(context):
     context.dorothyActRes.mock_value(key, value)
     context.dorothyActRes.get_value(key)
     if context.dorothyActRes.dist[key] != 'Active':
-        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
-        context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
-        context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value(key, value)
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
-    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
-    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
-
-
-@given(u'HUD车道偏离状态为摄像头覆盖')
-def step_impl(context):
-    key = 'LDWOperationStatus'
-    value = 'Camera Cover'
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    if context.dorothyActRes.dist[key] != 'Camera Cover':
-        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
-        context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
-        context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value(key, value)
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
-    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
-    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
-
-
-@given(u'HUD车道偏离状态为故障状态')
-def step_impl(context):
-    key = 'LDWOperationStatus'
-    value = 'Fault'
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    if context.dorothyActRes.dist[key] != 'Fault':
-        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
-        context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
-        context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value(key, value)
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
-    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
-    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
-
-
-@given(u'HUD车道偏离状态为标定状态')
-def step_impl(context):
-    key = 'LDWOperationStatus'
-    value = 'Calculation'
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    if context.dorothyActRes.dist[key] != 'Calculation':
-        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
-        context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
-        context.dorothyTestInput.sysExtEvt.start_generate_signal()
-
-    context.dorothyExpRes.set_value(key, value)
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
-    logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
-    assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
-
-
-@given(u'HUD车道偏离状态为保留值')
-def step_impl(context):
-    key = 'LDWOperationStatus'
-    value = 'Reserve'
-    context.dorothyActRes.mock_value(key, value)
-    context.dorothyActRes.get_value(key)
-    if context.dorothyActRes.dist[key] != 'Reserve':
         context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', value)
         context.dorothyTestInput.sysExtEvt.set_signal_duration(1)
         context.dorothyTestInput.sysExtEvt.start_generate_signal()
@@ -158,6 +63,27 @@ def step_impl(context):
     logging.debug("context.dorothyExpRes." + key + ": " + str(context.dorothyExpRes.dist[key]))
     logging.debug("context.dorothyActRes." + key + ": " + str(context.dorothyActRes.dist[key]))
     assert context.dorothyActRes.dist[key] == context.dorothyExpRes.dist[key]
+
+
+@when(u'HUD车道偏离状态为{status}')
+def step_impl(context, status):
+    if status == u'关闭':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Off')
+    elif status == u'待机':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Standby')
+    elif status == u'系统激活':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Active')
+    elif status == u'故障状态':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Fault')
+    elif status == u'标定状态':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Calculation')
+    elif status == u'摄像头覆盖':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Camera Cover')
+    elif status == u'保留值':
+        context.dorothyTestInput.sysExtEvt.set_value('OperationStatus', 'Reserve')
+    else:
+        logging.error("error status:" + status)
+        raise Exception
 
 
 @when(u'CANBUS上车道偏离状态为{status}')
@@ -241,12 +167,6 @@ def step_impl(context, status):
     else:
         logging.error("error status:" + status)
         raise Exception
-
-
-@given(u'CANBUS上信号持续{duration}秒')
-def step_impl(context, duration):
-    context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
-    context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @then(u'HUD不显示车道偏离信息')
