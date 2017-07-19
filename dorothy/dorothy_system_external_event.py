@@ -27,8 +27,9 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     control_board_serial_port = None
     digital_values = {}
     list_values = {}
-    navigation_digital_values = {}
-    navigation_list_values = {}
+    navigation_1_values = {}
+    navigation_2_values = {}
+    navigation_3_values = {}
     navigation_road_values = {}
 
     def __init__(self, control_board_serial_port, mock_enable=False):
@@ -44,10 +45,6 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.current_speed = 0
         self.current_temp = 0
         self.p_set = self.control_board_serial_port
-        self.dest_distance = 0
-        self.dest_hour = 0
-        self.dest_minute = 0
-        self.next_cross_distance = 0
 
     def set_up(self):
         self.p_set.set_up()
@@ -55,14 +52,11 @@ class DorothySystemExternalEvent(SystemExternalEvent):
         self.duration = 0
         self.current_speed = 0
         self.current_temp = 0
-        self.dest_distance = 0
-        self.dest_hour = 0
-        self.dest_minute = 0
-        self.next_cross_distance = 0
         self.digital_values = self.p_set.digital_values
         self.list_values = self.p_set.list_values
-        self.navigation_digital_values = self.p_set.navigation_digital_values
-        self.navigation_list_values = self.p_set.navigation_list_values
+        self.navigation_1_values = self.p_set.navigation_1_values
+        self.navigation_2_values = self.p_set.navigation_2_values
+        self.navigation_3_values = self.p_set.navigation_3_values
         self.navigation_road_values = self.p_set.navigation_road_values
 
     # def tear_down(self):
@@ -70,8 +64,8 @@ class DorothySystemExternalEvent(SystemExternalEvent):
     def set_value(self, key, value):
         """
         set dictionary value according to specified key
-        :param key: test result dictionary key
-        :param value: test result dictionary value
+        :param key: test dictionary key
+        :param value: test dictionary value
         :return: None
         """
 
@@ -79,24 +73,46 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set_initial_value(key, float(value))
             self.p_set.set_end_value(key, float(value))
             self.digital_values.get(key)["Process Set Value Method"](float(value))
-            self.p_set.set(self.digital_values.get(key)["Package"],
-                           self.digital_values.get(key)["Process"].get_data())
         elif self.list_values.get(key) is not None:
             self.list_values.get(key)["Process Set Value Method"](value)
-            self.p_set.set(self.list_values.get(key)["Package"],
-                           self.list_values.get(key)["Process"].get_data())
-        elif self.navigation_digital_values.get(key) is not None:
+        elif self.navigation_1_values.get(key) is not None:
             self.p_set.set_initial_navigation_value(key, float(value))
             self.p_set.set_end_navigation_value(key, float(value))
-            self.next_cross_distance = float(value)
-            self.navigation_digital_values.get(key)["Process Set Value Method"](self.dest_distance,
-                                                                                self.dest_hour,
-                                                                                self.dest_minute,
-                                                                                self.next_cross_distance)
+            parameters = ()
+            for item_key, item_value in self.navigation_1_values.items():
+                if key == item_key:
+                    logging.debug(item_key + ":" + str(value))
+                    parameters += (float(value),)
+                else:
+                    parameters += (0.0,)
+
+            self.navigation_1_values.get(key)["Process Set Value Method"](*parameters)
             self.p_set.enable_navigation()
-        elif self.navigation_list_values.get(key) is not None:
-            # TODO:navigation_list_values
-            print("navigation_list_values")
+        elif self.navigation_2_values.get(key) is not None:
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            parameters = ()
+            for item_key, item_value in self.navigation_1_values.items():
+                if key == item_key:
+                    logging.debug(item_key + ":" + str(value))
+                    parameters += (float(value),)
+                else:
+                    parameters += (0.0,)
+
+            self.navigation_1_values.get(key)["Process Set Value Method"](*parameters)
+            self.p_set.enable_navigation()
+        elif self.navigation_3_values.get(key) is not None:
+            self.p_set.set_initial_navigation_value(key, float(value))
+            self.p_set.set_end_navigation_value(key, float(value))
+            parameters = ()
+            for item_key, item_value in self.navigation_1_values.items():
+                if key == item_key:
+                    logging.debug(item_key + ":" + str(value))
+                    parameters += (float(value),)
+                else:
+                    parameters += (0.0,)
+
+            self.navigation_1_values.get(key)["Process Set Value Method"](*parameters)
             self.p_set.enable_navigation()
         elif self.navigation_road_values.get(key) is not None:
             self.p_set.set_navigation_road_name(key, value)

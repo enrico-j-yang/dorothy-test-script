@@ -20,8 +20,9 @@ class DorothyPackageSet(PackageSet):
 
     digital_values = {}
     list_values = {}
-    navigation_digital_values = {}
-    navigation_list_values = {}
+    navigation_1_values = {}
+    navigation_2_values = {}
+    navigation_3_values = {}
     navigation_road_values = {}
 
     var_navigation_clear = "navigation_clear"
@@ -180,7 +181,8 @@ class DorothyPackageSet(PackageSet):
                                   "Process": self.ldw_p,
                                   "Process Set Value Method": self.ldw_p.set_calculation_status},
         }
-        self.navigation_digital_values = {
+
+        self.navigation_1_values = {
             "DestDistance": {"Package": self.var_navigation_navi1,
                              "Initial Value": 0,
                              "End Value": 0,
@@ -201,6 +203,12 @@ class DorothyPackageSet(PackageSet):
                                   "End Value": 0,
                                   "Process": self.navigation_p,
                                   "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
+        }
+
+        self.navigation_2_values = {
+        }
+
+        self.navigation_3_values = {
         }
 
         self.navigation_road_values = {
@@ -414,8 +422,84 @@ class DorothyPackageSet(PackageSet):
                             logging.debug("请生成数据")
                         else:
                             logging.error("发送失败")
-                elif package_key in (self.var_navigation_navi1, self.var_navigation_navi2, self.var_navigation_navi3):
-                    for key, value in self.navigation_digital_values.items():
+                elif package_key == self.var_navigation_navi1:
+                    for key, value in self.navigation_1_values.items():
+                        if value['Package'] == package_key:
+                            init_value = value["Initial Value"]
+                            end_value = value["End Value"]
+                            logging.debug("init " + key + ":" + str(init_value))
+                            logging.debug("end " + key + ":" + str(end_value))
+                            logging.debug("duration:" + str(self.duration))
+
+                            if init_value != end_value:
+                                current_value = round(init_value + (end_value -
+                                                                    init_value) * eclipse_time / self.duration, 1)
+                            else:
+                                current_value = init_value
+
+                            logging.debug("current " + package_key + ":" + str(current_value))
+                            parameters += (current_value,)
+
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
+
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
+                                msg_data))
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                elif package_key == self.var_navigation_navi2:
+                    for key, value in self.navigation_1_values.items():
+                        if value['Package'] == package_key:
+                            init_value = value["Initial Value"]
+                            end_value = value["End Value"]
+                            logging.debug("init " + key + ":" + str(init_value))
+                            logging.debug("end " + key + ":" + str(end_value))
+                            logging.debug("duration:" + str(self.duration))
+
+                            if init_value != end_value:
+                                current_value = round(init_value + (end_value -
+                                                                    init_value) * eclipse_time / self.duration, 1)
+                            else:
+                                current_value = init_value
+
+                            logging.debug("current " + package_key + ":" + str(current_value))
+                            parameters += (current_value,)
+
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
+
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
+                                msg_data))
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                elif package_key == self.var_navigation_navi3:
+                    for key, value in self.navigation_1_values.items():
                         if value['Package'] == package_key:
                             init_value = value["Initial Value"]
                             end_value = value["End Value"]
@@ -495,7 +579,20 @@ class DorothyPackageSet(PackageSet):
         :return: None
         """
         logging.debug("set_initial_value:" + str(value))
-        self.navigation_digital_values.get(key)["Initial Value"] = float(value)
+        for item_key, item_value in self.navigation_1_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_1_values.get(key)["Initial Value"] = float(value)
+
+        for item_key, item_value in self.navigation_2_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_2_values.get(key)["Initial Value"] = float(value)
+
+        for item_key, item_value in self.navigation_3_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_3_values.get(key)["Initial Value"] = float(value)
 
     def set_end_navigation_value(self, key, value):
         """
@@ -505,7 +602,20 @@ class DorothyPackageSet(PackageSet):
         :return: None
         """
         logging.debug("set_end_value:" + str(value))
-        self.navigation_digital_values.get(key)["End Value"] = float(value)
+        for item_key, item_value in self.navigation_1_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_1_values.get(key)["End Value"] = float(value)
+
+        for item_key, item_value in self.navigation_2_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_2_values.get(key)["End Value"] = float(value)
+
+        for item_key, item_value in self.navigation_3_values.items():
+            if key == item_key:
+                logging.debug(item_key + ":" + str(value))
+                self.navigation_3_values.get(key)["End Value"] = float(value)
 
     def set_navigation(self, key, value):
         data_tuple = self.navigation_package_list.get(key)
