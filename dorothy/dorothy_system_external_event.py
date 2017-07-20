@@ -92,14 +92,14 @@ class DorothySystemExternalEvent(SystemExternalEvent):
             self.p_set.set_initial_navigation_value(key, float(value))
             self.p_set.set_end_navigation_value(key, float(value))
             parameters = ()
-            for item_key, item_value in self.navigation_1_values.items():
+            for item_key, item_value in self.navigation_2_values.items():
                 if key == item_key:
                     logging.debug(item_key + ":" + str(value))
                     parameters += (float(value),)
                 else:
                     parameters += (0.0,)
 
-            self.navigation_1_values.get(key)["Process Set Value Method"](*parameters)
+            self.navigation_2_values.get(key)["Process Set Value Method"](*parameters)
             self.p_set.enable_navigation()
         elif self.navigation_3_values.get(key) is not None:
             self.p_set.set_initial_navigation_value(key, float(value))
