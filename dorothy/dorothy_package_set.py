@@ -180,6 +180,17 @@ class DorothyPackageSet(PackageSet):
             'CalculationStatus': {"Package": self.var_ldw,
                                   "Process": self.ldw_p,
                                   "Process Set Value Method": self.ldw_p.set_calculation_status},
+
+            'SetDisplayMode': {"Package": self.var_hud_set,
+                               "Process": self.hud_set_p,
+                               "Process Set Value Method": self.hud_set_p.set_display_mode},
+            "SetBrightness": {"Package": self.var_hud_set,
+                              "Process": self.hud_set_p,
+                              "Process Set Value Method": self.hud_set_p.set_brightness_state},
+            "SetCombinerAngle": {"Package": self.var_hud_set,
+                                 "Process": self.hud_set_p,
+                                 "Process Set Value Method": self.hud_set_p.set_hud_angle_state},
+
         }
 
         self.navigation_1_values = {
