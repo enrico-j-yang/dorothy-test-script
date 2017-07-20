@@ -39,34 +39,34 @@ def before_all(context):
     context.nav_script = NavScript(context.can_serial)
     context.nav_script.set_log_frame(context.log_control)
 
-    if platform.system() == 'Windows':
-        logging.info("连接中....")
-        context.control_board_serial_port = context.p_set
-        if context.control_board_serial_port.connect() == 1:
-            logging.info("连接成功")
-        else:
-            logging.error("连接失败")
-            raise ConnectionError
-
-        try:
-            context.result_serial_port = TestSerial(port='COM5',
-                                                    baudrate=9600,
-                                                    timeout=0,
-                                                    parity=TestSerial.PARITY_NONE,
-                                                    stopbits=TestSerial.STOPBITS_ONE,
-                                                    bytesize=TestSerial.EIGHTBITS,
-                                                    mock_enable=True)
-        except TestSerial.SerialException:
-            logging.error("TestSerial.SerialException")
-            raise TestSerial.SerialException
-        except Exception as e:
-            logging.error("Unknown exception:" + str(e))
-            raise Exception
-        else:
-            logging.info("serial opened")
+    #if platform.system() == 'Windows':
+    logging.info("连接中....")
+    context.control_board_serial_port = context.p_set
+    if context.control_board_serial_port.connect() == 1:
+        logging.info("连接成功")
     else:
-        logging.error("platform:" + platform.system() + "not supported")
-        raise PlatformNotSupportedError
+        logging.error("连接失败")
+        raise ConnectionError
+
+    try:
+        context.result_serial_port = TestSerial(port='COM5',
+                                                baudrate=9600,
+                                                timeout=0,
+                                                parity=TestSerial.PARITY_NONE,
+                                                stopbits=TestSerial.STOPBITS_ONE,
+                                                bytesize=TestSerial.EIGHTBITS,
+                                                mock_enable=True)
+    except TestSerial.SerialException:
+        logging.error("TestSerial.SerialException")
+        raise TestSerial.SerialException
+    except Exception as e:
+        logging.error("Unknown exception:" + str(e))
+        raise Exception
+    else:
+        logging.info("serial opened")
+    #else:
+    #    logging.error("platform:" + platform.system() + "not supported")
+    #    raise PlatformNotSupportedError
 
     context.dorothyTestInput = TestInput()
     context.dorothyTestInput.sysExtEvt = DorothySystemExternalEvent(context.control_board_serial_port, mock_enable=True)

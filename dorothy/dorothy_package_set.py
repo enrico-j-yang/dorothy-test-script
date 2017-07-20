@@ -69,38 +69,38 @@ class DorothyPackageSet(PackageSet):
         self.interrupt = False
         self.digital_values = {
             "Speed": {"Package": self.var_speed,
-                      "Initial Value": 0,
-                      "End Value": 0,
+                      "Initial Value": 255,
+                      "End Value": 255,
                       "Process": self.speed_p,
                       "Process Set Value Method": self.speed_p.set_speed},
             "ECT": {"Package": self.var_coolant_temp,
-                    "Initial Value": 0,
-                    "End Value": 0,
+                    "Initial Value": 215,
+                    "End Value": 215,
                     "Process": self.engine_p,
                     "Process Set Value Method": self.engine_p.set_temperature},
             "RPM": {"Package": self.var_limit_speed,
-                    "Initial Value": 0,
-                    "End Value": 0,
+                    "Initial Value": 262140,
+                    "End Value": 262140,
                     "Process": self.limit_p,
                     "Process Set Value Method": self.limit_p.set_rpm},
             "LimitCruiseSpeed": {"Package": self.var_limit_speed,
-                                 "Initial Value": 0,
-                                 "End Value": 0,
+                                 "Initial Value": 255,
+                                 "End Value": 255,
                                  "Process": self.limit_p,
                                  "Process Set Value Method": self.limit_p.set_limit_speed},
             "SurplusFuel": {"Package": self.var_fuel,
-                            "Initial Value": 0,
-                            "End Value": 0,
+                            "Initial Value": 85,
+                            "End Value": 85,
                             "Process": self.fuel_p,
                             "Process Set Value Method": self.fuel_p.set_fuel},
             "TirePressure": {"Package": self.var_tire,
-                             "Initial Value": 0,
-                             "End Value": 0,
+                             "Initial Value": 350,
+                             "End Value": 350,
                              "Process": self.tire_p,
                              "Process Set Value Method": self.tire_p.set_tire_pressure},
             "TireTemperature": {"Package": self.var_tire,
-                                "Initial Value": 0,
-                                "End Value": 0,
+                                "Initial Value": 215,
+                                "End Value": 215,
                                 "Process": self.tire_p,
                                 "Process Set Value Method": self.tire_p.set_tire_temperature}
         }
@@ -184,23 +184,27 @@ class DorothyPackageSet(PackageSet):
 
         self.navigation_1_values = {
             "DestDistance": {"Package": self.var_navigation_navi1,
-                             "Initial Value": 0,
-                             "End Value": 0,
                              "Process": self.navigation_p,
+                             "Initial Value": 6553.5,
+                             "End Value": 6553.5,
+                             "Constant Value": 6553.5,
                              "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
             "DestHour": {"Package": self.var_navigation_navi1,
-                         "Initial Value": 0,
-                         "End Value": 0,
+                         "Initial Value": 255,
+                         "End Value": 255,
+                         "Constant Value": 255,
                          "Process": self.navigation_p,
                          "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
             "DestMinute": {"Package": self.var_navigation_navi1,
-                           "Initial Value": 0,
-                           "End Value": 0,
+                           "Initial Value": 255,
+                           "End Value": 255,
+                           "Constant Value": 255,
                            "Process": self.navigation_p,
                            "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
             "NextCrossDistance": {"Package": self.var_navigation_navi1,
-                                  "Initial Value": 0,
-                                  "End Value": 0,
+                                  "Initial Value": 65535,
+                                  "End Value": 65535,
+                                  "Constant Value": 65535,
                                   "Process": self.navigation_p,
                                   "Process Set Value Method": self.navigation_p.set_nav_distance_and_time},
         }
@@ -476,7 +480,7 @@ class DorothyPackageSet(PackageSet):
                         else:
                             logging.error("发送失败")
                 elif package_key == self.var_navigation_navi2:
-                    for key, value in self.navigation_1_values.items():
+                    for key, value in self.navigation_2_values.items():
                         if value['Package'] == package_key:
                             init_value = value["Initial Value"]
                             end_value = value["End Value"]
@@ -514,21 +518,24 @@ class DorothyPackageSet(PackageSet):
                         else:
                             logging.error("发送失败")
                 elif package_key == self.var_navigation_navi3:
-                    for key, value in self.navigation_1_values.items():
+                    for key, value in self.navigation_3_values.items():
                         if value['Package'] == package_key:
-                            init_value = value["Initial Value"]
-                            end_value = value["End Value"]
-                            logging.debug("init " + key + ":" + str(init_value))
-                            logging.debug("end " + key + ":" + str(end_value))
-                            logging.debug("duration:" + str(self.duration))
+                            if "Initial Value" in value.keys():
+                                init_value = value["Initial Value"]
+                                end_value = value["End Value"]
+                                logging.debug("init " + key + ":" + str(init_value))
+                                logging.debug("end " + key + ":" + str(end_value))
+                                logging.debug("duration:" + str(self.duration))
 
-                            if init_value != end_value:
-                                current_value = round(init_value + (end_value -
-                                                                    init_value) * eclipse_time / self.duration, 1)
+                                if init_value != end_value:
+                                    current_value = round(float(init_value) + (
+                                        float(end_value) - float(init_value)) * eclipse_time / self.duration, 1)
+                                else:
+                                    current_value = init_value
                             else:
-                                current_value = init_value
+                                current_value = value["Constant Value"]
 
-                            logging.debug("current " + package_key + ":" + str(current_value))
+                            logging.debug("current " + key + ":" + str(current_value))
                             parameters += (current_value,)
 
                     if len(parameters) > 0:
