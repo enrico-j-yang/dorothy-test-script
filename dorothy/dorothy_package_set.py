@@ -210,6 +210,21 @@ class DorothyPackageSet(PackageSet):
         }
 
         self.navigation_2_values = {
+            "NextCrossProgress": {"Package": self.var_navigation_navi2,
+                                  "Initial Value": 0,
+                                  "End Value": 0,
+                                  "Process": self.navigation_p,
+                                  "Process Set Value Method": self.navigation_p.set_nav_crossroad_and_angle},
+            "NextCrossType": {"Package": self.var_navigation_navi2,
+                              "Initial Value": 0,
+                              "End Value": 0,
+                              "Process": self.navigation_p,
+                              "Process Set Value Method": self.navigation_p.set_nav_crossroad_and_angle},
+            "Angle": {"Package": self.var_navigation_navi2,
+                      "Initial Value": 0,
+                      "End Value": 0,
+                      "Process": self.navigation_p,
+                      "Process Set Value Method": self.navigation_p.set_nav_crossroad_and_angle},
         }
 
         self.navigation_3_values = {
