@@ -7,6 +7,7 @@ import logging
 
 from behave import *
 
+
 @when(u'CANBUS上到下一个路口的进度值为{next_cross_progress}%')
 def step_impl(context, next_cross_progress):
     context.dorothyTestInput.sysExtEvt.set_value('NextCrossProgress', next_cross_progress)
