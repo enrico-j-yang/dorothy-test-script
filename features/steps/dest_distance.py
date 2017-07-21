@@ -71,7 +71,7 @@ def step_impl(context, next_cross_distance_in_km):
 
 @when(u'CANBUS上目的地距离值为{dest_distance_in_m}m')
 def step_impl(context, dest_distance_in_m):
-    context.dorothyTestInput.sysExtEvt.set_value('DestDistance', dest_distance_in_m)
+    context.dorothyTestInput.sysExtEvt.set_value('DestDistance', float(dest_distance_in_m) / 1000)
 
 
 @when(u'CANBUS上到达目的地剩余时间值为{minute}m')
@@ -123,16 +123,16 @@ def step_impl(context, next_cross_distance_in_m):
 
 @when(u'CANBUS上速度在{duration}秒内从{init_distance_in_km}km减小到{end_distance_in_m}m')
 def step_impl(context, duration, init_distance_in_km, end_distance_in_m):
-    context.dorothyTestInput.sysExtEvt.set_initial_navigation_value('DestDistance', float(init_distance_in_km) * 1000)
-    context.dorothyTestInput.sysExtEvt.set_end_navigation_value('DestDistance', end_distance_in_m)
+    context.dorothyTestInput.sysExtEvt.set_initial_navigation_value('DestDistance', init_distance_in_km)
+    context.dorothyTestInput.sysExtEvt.set_end_navigation_value('DestDistance', float(end_distance_in_m) / 1000)
     context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 
 
 @when(u'CANBUS上速度在{duration}秒内从{init_distance_in_m}m增加到{end_distance_in_km}km')
 def step_impl(context, duration, init_distance_in_m, end_distance_in_km):
-    context.dorothyTestInput.sysExtEvt.set_initial_navigation_value('DestDistance', init_distance_in_m)
-    context.dorothyTestInput.sysExtEvt.set_end_navigation_value('DestDistance', float(end_distance_in_km) * 1000)
+    context.dorothyTestInput.sysExtEvt.set_initial_navigation_value('DestDistance', float(init_distance_in_m) / 1000)
+    context.dorothyTestInput.sysExtEvt.set_end_navigation_value('DestDistance', end_distance_in_km)
     context.dorothyTestInput.sysExtEvt.set_signal_duration(duration)
     context.dorothyTestInput.sysExtEvt.start_generate_signal()
 

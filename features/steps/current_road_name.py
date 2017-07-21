@@ -62,19 +62,19 @@ def step_impl(context, road_name):
     context.dorothyActRes.get_value(key)
     if context.dorothyActRes.dist[key] != road_name:
         # 路名3个分一组数据包,记录总共有需要多少组数据包
-        name_size = len(road_name) / 3 + 1
+        name_size = int(len(road_name) / 3) + 1
         for i in range(0, int(name_size)):
             # 每个字放入的起始字节位和结束字节位
             s_index = i * 3
             e_index = len(road_name) if s_index + 3 > len(road_name) else s_index + 3
             part_name = road_name[s_index:e_index]
             # 如果e_index < s_index + 3 则该数据包为结束包
-            if i == 0:
-                context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '1:' + part_name)
-            elif 0 < i < name_size - 1:
-                context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '2:' + part_name)
-            elif i == name_size - 1:
+            if i == name_size - 1:
                 context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '3:' + part_name)
+            elif 0 < i < int(name_size) - 1:
+                context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '2:' + part_name)
+            elif i == 0:
+                context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '1:' + part_name)
             else:
                 logging.error("unknown frame type")
                 raise Exception
@@ -108,4 +108,25 @@ def step_impl(context):
 
 @when(u'CANBUS上当前道路名称数据0xFFFF')
 def step_impl(context):
-    context.dorothyTestInput.sysExtEvt.set_value('RoadName1', '0:FF')
+    context.dorothyTestInput.sysExtEvt.set_value('RoadName1', '0:0xFFFF')
+
+
+@when(u'CANBUS上当前道路名称数据为{road_name}')
+def step_impl(context, road_name):
+    # 路名3个分一组数据包,记录总共有需要多少组数据包
+    name_size = int(len(road_name) / 3) + 1
+    for i in range(0, int(name_size)):
+        # 每个字放入的起始字节位和结束字节位
+        s_index = i * 3
+        e_index = len(road_name) if s_index + 3 > len(road_name) else s_index + 3
+        part_name = road_name[s_index:e_index]
+        # 如果e_index < s_index + 3 则该数据包为结束包
+        if i == name_size - 1:
+            context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '3:' + part_name)
+        elif 0 < i < int(name_size) - 1:
+            context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '2:' + part_name)
+        elif i == 0:
+            context.dorothyTestInput.sysExtEvt.set_value('RoadName' + str(i + 1), '1:' + part_name)
+        else:
+            logging.error("unknown frame type")
+            raise Exception
