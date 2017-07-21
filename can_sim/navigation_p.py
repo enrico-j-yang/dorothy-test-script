@@ -4,6 +4,18 @@ import copy
 
 
 class NavigationP(Processer):
+    _cam_type_data = [
+        (0, 'Traffic Light'),
+        (1, 'BreakRule'),
+        (2, 'WarningRailway'),
+        (3, 'WarningAccidentWay'),
+        (4, 'WarningRapidDownWay'),
+        (5, 'WarningSchool'),
+        (6, 'WarningRapidTurn'),
+        (7, 'WarningHillWay'),
+        (8, 'WarningOther'),
+        (9, 'Reserve')
+    ]
     """时速协议数据封装器"""
 
     def __init__(self):
@@ -147,7 +159,7 @@ class NavigationP(Processer):
         self.set_data_bits_auto(0, 0, 3, 4)
         self.set_data_bits_auto(1, 5, 7, 4)
         self.set_data_auto(3, int(cam_speed_limit))
-        self.set_data_bits_auto(4, 4, 7, int(cam_type))
+        self.set_data_bits_auto(4, 4, 7, [tup for tup in self._cam_type_data if tup[1] == cam_type][0][0])
         dist_high4 = (int(dest_dist) & 0xf00) >> 8
         dist_low8 = int(dest_dist) & 0xff
         self.set_data_bits_auto(4, 0, 3, dist_high4)

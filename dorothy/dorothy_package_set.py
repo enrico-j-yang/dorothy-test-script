@@ -239,6 +239,20 @@ class DorothyPackageSet(PackageSet):
         }
 
         self.navigation_3_values = {
+            "CamSpeedLimit": {"Package": self.var_navigation_navi3,
+                              "Initial Value": 0,
+                              "End Value": 0,
+                              "Process": self.navigation_p,
+                              "Process Set Value Method": self.navigation_p.set_nav_e_dog},
+            "CamType": {"Package": self.var_navigation_navi3,
+                        "Process": self.navigation_p,
+                        "Process Set Value Method": self.navigation_p.set_nav_e_dog},
+            "DestDist": {"Package": self.var_navigation_navi3,
+                         "Initial Value": 0,
+                         "End Value": 0,
+                         "Process": self.navigation_p,
+                         "Process Set Value Method": self.navigation_p.set_nav_e_dog},
+
         }
 
         self.navigation_road_values = {
