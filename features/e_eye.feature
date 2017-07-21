@@ -59,9 +59,9 @@
     而且    CANBUS上信号持续3秒
     那么    HUD显示电子眼限速图标，限速60km/h
 
-    当      CANBUS上速度在3秒内增加到70km/h
+    当      CANBUS上速度在3秒内从50km/h增加到70km/h
     那么    HUD显示速度在20秒内从50km/h增加到70km/h
-    而且    CANBUS上信号持续3秒
+    当      CANBUS上信号持续3秒
     那么    HUD显示速度为70km/h
     而且    HUD显示电子眼限速图标以1Hz频率闪烁
 
@@ -79,18 +79,18 @@
     而且    HUD显示电子眼限速图标，限速60km/h
     而且    HUD显示电子眼限速图标以1Hz频率闪烁
 
-    当      CANBUS上速度在3秒内下降到60km/h
+    当      CANBUS上速度在3秒内从70km/h下降到60km/h
     那么    HUD显示速度在20秒内从70km/h增加到60km/h
 
-    而且    CANBUS上信号持续3秒
+    当      CANBUS上信号持续3秒
 
     那么    HUD显示速度为60km/h
     而且    HUD显示电子眼限速图标不闪烁
 
-    当      CANBUS上速度在3秒内下降到50km/h
-    那么    HUD显示速度在20秒内从60km/h增加到50km/h
+    当      CANBUS上速度在3秒内从70km/h下降到50km/h
+    那么    HUD显示速度在20秒内从70km/h增加到50km/h
 
-    而且    CANBUS上信号持续3秒
+    当      CANBUS上信号持续3秒
 
     那么    HUD显示速度为50km/h
     而且    HUD显示电子眼限速图标不闪烁
@@ -123,7 +123,7 @@
     而且    CANBUS上引导方向类型为非法值
 
     而且    CANBUS上信号持续3秒
-    那么    HUD显示电子眼<camera type picture>
+    那么    HUD显示电子眼<camera type picture>图标
     而且    HUD显示电子眼距离为500米
 
     例子:       电子眼图标编号与图标关系
