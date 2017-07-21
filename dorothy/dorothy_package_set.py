@@ -386,7 +386,14 @@ class DorothyPackageSet(PackageSet):
 
                 msg_id = self.package_list.get(val)[0]
                 msg_data = self.package_list.get(val)[1]
-                logging.debug("inc" + str(inc) + "-" + val + "-msg_id" + str(msg_id) + "-msg_data" + str(msg_data))
+                msg_data_hex = "["
+                for decimal_value in msg_data:
+                    hex_value = hex(decimal_value)
+                    msg_data_hex += hex_value
+                    msg_data_hex += ","
+                msg_data_hex += "]"
+                logging.debug(
+                    "inc" + str(inc) + "-" + val + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                 with self.lock:
                     send_status = self.can_serial.send_data(msg_id, msg_data)
                 logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
@@ -414,8 +421,14 @@ class DorothyPackageSet(PackageSet):
                 if package_key == self.var_navigation_clear:
                     msg_id = package_value[0]
                     msg_data = package_value[1]
+                    msg_data_hex = "["
+                    for decimal_value in msg_data:
+                        hex_value = hex(decimal_value)
+                        msg_data_hex += hex_value
+                        msg_data_hex += ","
+                    msg_data_hex += "]"
                     logging.debug(
-                        "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(msg_data))
+                        "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                     with self.lock:
                         send_status = self.can_serial.send_data(msg_id, msg_data)
                     logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
@@ -458,9 +471,14 @@ class DorothyPackageSet(PackageSet):
 
                         msg_id = package_value[0]
                         msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
                         logging.debug(
-                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
-                                msg_data))
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                         with self.lock:
                             send_status = self.can_serial.send_data(msg_id, msg_data)
                         logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
@@ -496,9 +514,14 @@ class DorothyPackageSet(PackageSet):
 
                         msg_id = package_value[0]
                         msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
                         logging.debug(
-                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
-                                msg_data))
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                         with self.lock:
                             send_status = self.can_serial.send_data(msg_id, msg_data)
                         logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
@@ -534,9 +557,14 @@ class DorothyPackageSet(PackageSet):
 
                         msg_id = package_value[0]
                         msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
                         logging.debug(
-                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
-                                msg_data))
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                         with self.lock:
                             send_status = self.can_serial.send_data(msg_id, msg_data)
                         logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
@@ -575,9 +603,14 @@ class DorothyPackageSet(PackageSet):
 
                         msg_id = package_value[0]
                         msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
                         logging.debug(
-                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + str(
-                                msg_data))
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
                         with self.lock:
                             send_status = self.can_serial.send_data(msg_id, msg_data)
                         logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
