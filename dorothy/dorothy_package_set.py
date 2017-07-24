@@ -414,63 +414,13 @@ class DorothyPackageSet(PackageSet):
         if self.interrupt is True:
             return
 
-#        try:
-        eclipse_time = time.time() - self.start_time
+        try:
+            eclipse_time = time.time() - self.start_time
 
-        logging.debug("eclipse_time:" + str(eclipse_time))
-        for package_key, package_value in self.navigation_package_list.items():
-            parameters = ()
-            if package_key == self.var_navigation_clear:
-                msg_id = package_value[0]
-                msg_data = package_value[1]
-                msg_data_hex = "["
-                for decimal_value in msg_data:
-                    hex_value = hex(decimal_value)
-                    msg_data_hex += hex_value
-                    msg_data_hex += ","
-                msg_data_hex += "]"
-                logging.debug(
-                    "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
-                with self.lock:
-                    send_status = self.can_serial.send_data(msg_id, msg_data)
-                logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
-
-                if send_status == 1:
-                    logging.debug("发送成功")
-                elif send_status == -1:
-                    logging.debug("请生成数据")
-                else:
-                    logging.error("发送失败")
-            elif package_key == self.var_navigation_current_road:
-                # 路名3个分一组数据包
-                frame_count = 1
-                for frame_index, part_name in self.navigation_road_name:
-                    value = self.navigation_road_values[frame_index]
-                    frame_index = frame_index[len("RoadName"):len(frame_index)]
-                    # 是否为单桢
-                    if frame_index == 'Hide':
-                        value["Process Set Value Method"]()
-                    else:
-                        # 是否为结束包
-
-                        if int(part_name[0:part_name.index(":")]) == 3:
-                            end_flag = True
-                            part_name = part_name[part_name.index(":") + 1:len(part_name)]
-                        elif 0 < int(part_name[0:part_name.index(":")]) < 3:
-                            end_flag = False
-                            part_name = part_name[part_name.index(":") + 1:len(part_name)]
-                        elif int(part_name[0:part_name.index(":")]) == 0:
-                            end_flag = True
-                            part_name = ""
-                        else:
-                            logging.error("error frame type")
-                            raise Exception
-
-                        value["Process Set Value Method"](int(frame_index), end_flag, part_name)
-                        frame_count += 1
-                        self.set_navigation(value["Package"],
-                                            value["Process"].get_data())
-
+            logging.debug("eclipse_time:" + str(eclipse_time))
+            for package_key, package_value in self.navigation_package_list.items():
+                parameters = ()
+                if package_key == self.var_navigation_clear:
                     msg_id = package_value[0]
                     msg_data = package_value[1]
                     msg_data_hex = "["
@@ -491,96 +441,59 @@ class DorothyPackageSet(PackageSet):
                         logging.debug("请生成数据")
                     else:
                         logging.error("发送失败")
-            elif package_key == self.var_navigation_navi1:
-                for key, value in self.navigation_1_values.items():
-                    if value['Package'] == package_key:
-                        init_value = value["Initial Value"]
-                        end_value = value["End Value"]
-                        logging.debug("init " + key + ":" + str(init_value))
-                        logging.debug("end " + key + ":" + str(end_value))
-                        logging.debug("duration:" + str(self.duration))
-
-                        if init_value != end_value:
-                            current_value = round(init_value + (end_value -
-                                                                init_value) * eclipse_time / self.duration, 1)
+                elif package_key == self.var_navigation_current_road:
+                    # 路名3个分一组数据包
+                    frame_count = 1
+                    for frame_index, part_name in self.navigation_road_name:
+                        value = self.navigation_road_values[frame_index]
+                        frame_index = frame_index[len("RoadName"):len(frame_index)]
+                        # 是否为单桢
+                        if frame_index == 'Hide':
+                            value["Process Set Value Method"]()
                         else:
-                            current_value = init_value
+                            # 是否为结束包
 
-                        logging.debug("current " + package_key + ":" + str(current_value))
-                        parameters += (current_value,)
+                            if int(part_name[0:part_name.index(":")]) == 3:
+                                end_flag = True
+                                part_name = part_name[part_name.index(":") + 1:len(part_name)]
+                            elif 0 < int(part_name[0:part_name.index(":")]) < 3:
+                                end_flag = False
+                                part_name = part_name[part_name.index(":") + 1:len(part_name)]
+                            elif int(part_name[0:part_name.index(":")]) == 0:
+                                end_flag = True
+                                part_name = ""
+                            else:
+                                logging.error("error frame type")
+                                raise Exception
 
-                if len(parameters) > 0:
-                    value["Process Set Value Method"](*parameters)
-                    self.set_navigation(value["Package"],
-                                        value["Process"].get_data())
+                            value["Process Set Value Method"](int(frame_index), end_flag, part_name)
+                            frame_count += 1
+                            self.set_navigation(value["Package"],
+                                                value["Process"].get_data())
 
-                    msg_id = package_value[0]
-                    msg_data = package_value[1]
-                    msg_data_hex = "["
-                    for decimal_value in msg_data:
-                        hex_value = hex(decimal_value)
-                        msg_data_hex += hex_value
-                        msg_data_hex += ","
-                    msg_data_hex += "]"
-                    logging.debug(
-                        "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
-                    with self.lock:
-                        send_status = self.can_serial.send_data(msg_id, msg_data)
-                    logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
 
-                    if send_status == 1:
-                        logging.debug("发送成功")
-                    elif send_status == -1:
-                        logging.debug("请生成数据")
-                    else:
-                        logging.error("发送失败")
-            elif package_key == self.var_navigation_navi2:
-                for key, value in self.navigation_2_values.items():
-                    if value['Package'] == package_key:
-                        init_value = value["Initial Value"]
-                        end_value = value["End Value"]
-                        logging.debug("init " + key + ":" + str(init_value))
-                        logging.debug("end " + key + ":" + str(end_value))
-                        logging.debug("duration:" + str(self.duration))
-
-                        if init_value != end_value:
-                            current_value = round(init_value + (end_value -
-                                                                init_value) * eclipse_time / self.duration, 1)
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
                         else:
-                            current_value = init_value
-
-                        logging.debug("current " + package_key + ":" + str(current_value))
-                        parameters += (current_value,)
-
-                if len(parameters) > 0:
-                    value["Process Set Value Method"](*parameters)
-                    self.set_navigation(value["Package"],
-                                        value["Process"].get_data())
-
-                    msg_id = package_value[0]
-                    msg_data = package_value[1]
-                    msg_data_hex = "["
-                    for decimal_value in msg_data:
-                        hex_value = hex(decimal_value)
-                        msg_data_hex += hex_value
-                        msg_data_hex += ","
-                    msg_data_hex += "]"
-                    logging.debug(
-                        "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
-                    with self.lock:
-                        send_status = self.can_serial.send_data(msg_id, msg_data)
-                    logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
-
-                    if send_status == 1:
-                        logging.debug("发送成功")
-                    elif send_status == -1:
-                        logging.debug("请生成数据")
-                    else:
-                        logging.error("发送失败")
-            elif package_key == self.var_navigation_navi3:
-                for key, value in self.navigation_3_values.items():
-                    if value['Package'] == package_key:
-                        if "Initial Value" in value.keys():
+                            logging.error("发送失败")
+                elif package_key == self.var_navigation_navi1:
+                    for key, value in self.navigation_1_values.items():
+                        if value['Package'] == package_key:
                             init_value = value["Initial Value"]
                             end_value = value["End Value"]
                             logging.debug("init " + key + ":" + str(init_value))
@@ -588,55 +501,142 @@ class DorothyPackageSet(PackageSet):
                             logging.debug("duration:" + str(self.duration))
 
                             if init_value != end_value:
-                                current_value = round(float(init_value) + (
-                                    float(end_value) - float(init_value)) * eclipse_time / self.duration, 1)
+                                current_value = round(init_value + (end_value -
+                                                                    init_value) * eclipse_time / self.duration, 1)
                             else:
                                 current_value = init_value
+
+                            logging.debug("current " + package_key + ":" + str(current_value))
+                            parameters += (current_value,)
+
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
+
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
                         else:
-                            current_value = value["Constant Value"]
+                            logging.error("发送失败")
+                elif package_key == self.var_navigation_navi2:
+                    for key, value in self.navigation_2_values.items():
+                        if value['Package'] == package_key:
+                            init_value = value["Initial Value"]
+                            end_value = value["End Value"]
+                            logging.debug("init " + key + ":" + str(init_value))
+                            logging.debug("end " + key + ":" + str(end_value))
+                            logging.debug("duration:" + str(self.duration))
 
-                        logging.debug("current " + key + ":" + str(current_value))
-                        parameters += (current_value,)
+                            if init_value != end_value:
+                                current_value = round(init_value + (end_value -
+                                                                    init_value) * eclipse_time / self.duration, 1)
+                            else:
+                                current_value = init_value
 
-                if len(parameters) > 0:
-                    value["Process Set Value Method"](*parameters)
-                    self.set_navigation(value["Package"],
-                                        value["Process"].get_data())
+                            logging.debug("current " + package_key + ":" + str(current_value))
+                            parameters += (current_value,)
 
-                    msg_id = package_value[0]
-                    msg_data = package_value[1]
-                    msg_data_hex = "["
-                    for decimal_value in msg_data:
-                        hex_value = hex(decimal_value)
-                        msg_data_hex += hex_value
-                        msg_data_hex += ","
-                    msg_data_hex += "]"
-                    logging.debug(
-                        "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
-                    with self.lock:
-                        send_status = self.can_serial.send_data(msg_id, msg_data)
-                    logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
 
-                    if send_status == 1:
-                        logging.debug("发送成功")
-                    elif send_status == -1:
-                        logging.debug("请生成数据")
-                    else:
-                        logging.error("发送失败")
-            else:
-                logging.error("unknown navigation package key")
-                self.stop_flag.set()
-                return False
-#        except IndexError as e:
-#            logging.error(e)
-#            self.stop_flag.set()
-#            return False
-#        except Exception as e:
-#            logging.error(e)
-#            self.stop_flag.set()
-#            return False
-#        else:
-#            return True
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                elif package_key == self.var_navigation_navi3:
+                    for key, value in self.navigation_3_values.items():
+                        if value['Package'] == package_key:
+                            if "Initial Value" in value.keys():
+                                init_value = value["Initial Value"]
+                                end_value = value["End Value"]
+                                logging.debug("init " + key + ":" + str(init_value))
+                                logging.debug("end " + key + ":" + str(end_value))
+                                logging.debug("duration:" + str(self.duration))
+
+                                if init_value != end_value:
+                                    current_value = round(float(init_value) + (
+                                        float(end_value) - float(init_value)) * eclipse_time / self.duration, 1)
+                                else:
+                                    current_value = init_value
+                            else:
+                                current_value = value["Constant Value"]
+
+                            logging.debug("current " + key + ":" + str(current_value))
+                            parameters += (current_value,)
+
+                    if len(parameters) > 0:
+                        value["Process Set Value Method"](*parameters)
+                        self.set_navigation(value["Package"],
+                                            value["Process"].get_data())
+
+                        msg_id = package_value[0]
+                        msg_data = package_value[1]
+                        msg_data_hex = "["
+                        for decimal_value in msg_data:
+                            hex_value = hex(decimal_value)
+                            msg_data_hex += hex_value
+                            msg_data_hex += ","
+                        msg_data_hex += "]"
+                        logging.debug(
+                            "inc" + str(inc) + "-" + package_key + "-msg_id" + str(msg_id) + "-msg_data" + msg_data_hex)
+                        with self.lock:
+                            send_status = self.can_serial.send_data(msg_id, msg_data)
+                        logging.debug("after send data inc" + str(inc) + ":" + str(time.time()))
+
+                        if send_status == 1:
+                            logging.debug("发送成功")
+                        elif send_status == -1:
+                            logging.debug("请生成数据")
+                        else:
+                            logging.error("发送失败")
+                else:
+                    logging.error("unknown navigation package key")
+                    self.stop_flag.set()
+                    return False
+        except IndexError as e:
+            logging.error(e)
+            self.stop_flag.set()
+            return False
+        except Exception as e:
+            logging.error(e)
+            self.stop_flag.set()
+            return False
+        else:
+            return True
 
     def set_initial_value(self, key, value):
         """
