@@ -4,6 +4,77 @@ import copy
 
 
 class NavigationP(Processer):
+    _cam_type_data = [
+        (0, 'Traffic Light'),
+        (1, 'BreakRule'),
+        (2, 'WarningRailway'),
+        (3, 'WarningAccidentWay'),
+        (4, 'WarningRapidDownWay'),
+        (5, 'WarningSchool'),
+        (6, 'WarningRapidTurn'),
+        (7, 'WarningHillWay'),
+        (8, 'WarningOther'),
+        (9, 'Reserve'),
+        (15, 'Invalid')
+    ]
+    _turn_type_data = [
+        (0, 'Straight'),
+        (1, 'TurnLeft'),
+        (2, 'TurnRight'),
+        (3, 'TurnRound'),
+        (10, '10LeftFrontDrive'),
+        (11, 'LeftRearDrive'),
+        (13, '13LeftFrontDrive'),
+        (15, '15RightFrontDrive'),
+        (16, '16RightFrontDrive'),
+        (18, 'RightRearDrive'),
+        (22, 'MotorwayEntry'),
+        (23, 'LeftFrontEntryMotorway'),
+        (24, 'RightFrontEntryMotorway'),
+        (25, 'ExitMotorway'),
+        (26, 'LeftMotorwayExit'),
+        (27, 'RightMotorwayExit'),
+        (30, 'StraightOntoBridge'),
+        (31, 'TurnLeftOntoBridge'),
+        (32, 'TurnRightOntoBridge'),
+        (33, 'EnterTunnel'),
+        (36, 'FrontTollStation'),
+        (38, 'EnterFerry'),
+        (39, 'ExitFerry'),
+        (40, 'EnterRoundabout'),
+        (44, 'RoundaboutStraight'),
+        (45, '45RoundaboutRightFrontDrive'),
+        (46, '46RoundaboutRightFrontDrive'),
+        (47, 'RoundaboutTurnRight'),
+        (48, '48RoundaboutRightRearDrive'),
+        (49, '49RoundaboutRightRearDrive'),
+        (50, 'RoundaboutTurnRound'),
+        (51, '51RoundaboutLeftRearDrive'),
+        (52, '52RoundaboutLeftRearDrive'),
+        (53, 'RoundaboutTurnLeft'),
+        (54, '54RoundaboutLeftFrontDrive'),
+        (55, '55RoundaboutLeftFrontDrive'),
+        (73, 'LeftStraightOntoBridge'),
+        (74, '74LeftOntoBridge'),
+        (75, '75RightOntoBridge'),
+        (76, '76LeftDownBridge'),
+        (77, '77RightDownBridge'),
+        (78, 'StraightEnterUndergroundDriveway'),
+        (79, 'LeftEnterUndergroundDriveway'),
+        (80, 'RightEnterUndergroundDriveway'),
+        (81, 'LeftDrive'),
+        (82, 'RightDrive'),
+        (83, 'ServiceArea'),
+        (201, 'ViaDestination'),
+        (202, 'ViaDestination1'),
+        (203, 'ViaDestination2'),
+        (204, 'ViaDestination3'),
+        (218, 'Destination'),
+        (219, 'LeftDestination'),
+        (220, 'RightDestination'),
+        (127, 'Invalid'),
+        (221, 'Reserve')
+    ]
     """时速协议数据封装器"""
 
     def __init__(self):
@@ -137,17 +208,19 @@ class NavigationP(Processer):
 
     """
     第0个字节0~3位为4表示电子眼信息
+    turn_type           第2个字节完整表示引导方向类型
     cam_speed_limit     第3个字节完整表示电子眼限速
     cam_type            第4个字节4~7位表示电子眼类型
     dest_dist           第5个字节 + 第4个字节0~3位表示电子眼距离
     """
 
-    def set_nav_e_dog(self, cam_speed_limit, cam_type, dest_dist):
+    def set_nav_e_dog(self, cam_speed_limit, cam_type, dest_dist, turn_type):
         self.clear_data()
         self.set_data_bits_auto(0, 0, 3, 4)
         self.set_data_bits_auto(1, 5, 7, 4)
+        self.set_data_auto(2, [tup for tup in self._turn_type_data if tup[1] == turn_type][0][0])
         self.set_data_auto(3, int(cam_speed_limit))
-        self.set_data_bits_auto(4, 4, 7, int(cam_type))
+        self.set_data_bits_auto(4, 4, 7, [tup for tup in self._cam_type_data if tup[1] == cam_type][0][0])
         dist_high4 = (int(dest_dist) & 0xf00) >> 8
         dist_low8 = int(dest_dist) & 0xff
         self.set_data_bits_auto(4, 0, 3, dist_high4)
