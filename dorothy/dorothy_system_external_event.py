@@ -117,8 +117,11 @@ class DorothySystemExternalEvent(SystemExternalEvent):
 
                         parameters += (0.0,)
                 else:
-                    parameters += ('Reserve',)
-                    item_value["Constant Value"] = value
+                    if item_key == key:
+                        parameters += (value,)
+                        item_value["Constant Value"] = value
+                    else:
+                        parameters += ('Invalid',)
 
             self.navigation_3_values.get(key)["Process Set Value Method"](*parameters)
 
